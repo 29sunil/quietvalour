@@ -1,0 +1,136 @@
+<section class="sales-representatives">
+  <div class="container">
+    <div class="rep-grid">
+
+      <!-- US REPRESENTATIVES -->
+      <div class="rep-column">
+        <div class="rep-heading">
+          {% if section.settings.us_icon %}
+            <img src="{{ section.settings.us_icon | image_url: width: 80 }}" alt="">
+          {% endif %}
+          <h2>{{ section.settings.us_title }}</h2>
+        </div>
+
+        {% for block in section.blocks %}
+          {% if block.type == 'us_rep' %}
+            <div class="rep-item" {{ block.shopify_attributes }}>
+              <h4>{{ block.settings.area }}</h4>
+              <p>{{ block.settings.region }}</p>
+              <a target="_blank" href="{{ block.settings.company_link }}">{{ block.settings.company }}</a>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- GLOBAL REPRESENTATIVES -->
+      <div class="rep-column">
+        <div class="rep-heading">
+          {% if section.settings.global_icon %}
+            <img src="{{ section.settings.global_icon | image_url: width: 80 }}" alt="">
+          {% endif %}
+          <h2>{{ section.settings.global_title }}</h2>
+        </div>
+
+        {% for block in section.blocks %}
+          {% if block.type == 'global_rep' %}
+            <div class="rep-item" {{ block.shopify_attributes }}>
+              <h4>{{ block.settings.country }}</h4>
+              <a target="_blank" href="{{ block.settings.company_link }}">{{ block.settings.company }}</a>
+              <p>{{ block.settings.product_type }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sales Representatives",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "us_icon",
+      "label": "US Icon"
+    },
+    {
+      "type": "text",
+      "id": "us_title",
+      "label": "US Title",
+      "default": "UNITED STATES SALES REPRESENTATIVES"
+    },
+    {
+      "type": "image_picker",
+      "id": "global_icon",
+      "label": "Global Icon"
+    },
+    {
+      "type": "text",
+      "id": "global_title",
+      "label": "Global Title",
+      "default": "GLOBAL SALES REPRESENTATIVES"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "us_rep",
+      "name": "US Representative",
+      "settings": [
+        {
+          "type": "text",
+          "id": "area",
+          "label": "Area / Title"
+        },
+        {
+          "type": "text",
+          "id": "region",
+          "label": "Region Description"
+        },
+        {
+          "type": "text",
+          "id": "company",
+          "label": "Company Name"
+        },
+        {
+          "type": "url",
+          "id": "company_link",
+          "label": "Company Link"
+        }
+      ]
+    },
+    {
+      "type": "global_rep",
+      "name": "Global Representative",
+      "settings": [
+        {
+          "type": "text",
+          "id": "country",
+          "label": "Country"
+        },
+        {
+          "type": "text",
+          "id": "company",
+          "label": "Company Name"
+        },
+        {
+          "type": "text",
+          "id": "product_type",
+          "label": "Product Type"
+        },
+        {
+          "type": "url",
+          "id": "company_link",
+          "label": "Company Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sales Representatives"
+    }
+  ]
+}
+{% endschema %}

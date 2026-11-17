@@ -1,0 +1,529 @@
+<div class="account-wrapper">
+  <div class="container">
+    <!-- Sidebar -->
+    <button class="account-toggle-btn">My Account Menu <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+        fill="currentColor">
+        <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z">
+        </path>
+      </svg></button>
+    <div class="account-sidebar">
+      <ul class="account-menu">
+        <li class="active" data-tab="tab1"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512"><path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M80 212v236a16 16 0 0 0 16 16h96V328a24 24 0 0 1 24-24h80a24 24 0 0 1 24 24v136h96a16 16 0 0 0 16-16V212"></path><path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M480 256 266.89 52c-5-5.28-16.69-5.34-21.78 0L32 256m368-77V64h-48v69"></path></svg> My Account</li>
+
+        <li data-tab="tab2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"></path><path d="M12 2v4"></path><path d="M16 2v4"></path><rect width="16" height="18" x="4" y="4" rx="2"></rect><path d="M8 10h6"></path><path d="M8 14h8"></path><path d="M8 18h5"></path></svg> My Orders</li>
+
+        <li data-tab="tab3"><svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" ><path fill-rule="evenodd" clip-rule="evenodd" d="M20 5H4V19H20V5ZM4 3C2.89543 3 2 3.89543 2 5V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V5C22 3.89543 21.1046 3 20 3H4Z" fill="currentColor"></path><path d="M9.06723 9.19629H12.0672L9.93267 14.8038H6.93267L9.06723 9.19629Z" fill="currentColor"></path><path d="M14.0672 9.19629H17.0672L14.9327 14.8038H11.9327L14.0672 9.19629Z" fill="currentColor"></path></svg> My Quotes</li>
+
+        <li data-tab="tab4"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg> My Downloadable Products</li>
+
+        <li data-tab="tab5"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Address Book</li>
+
+        <li data-tab="tab6">Account Information</li>
+
+        <li data-tab="tab7">Refrigerant Certification</li>
+
+        <li data-tab="tab8">Stored Payment Methods</li>
+
+        <li data-tab="tab9">My Product Reviews</li>
+
+        <li data-tab="tab10">Newsletter Subscriptions</li>
+
+        <li data-tab="tab11">My Payment Options</li>
+      </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="account-content">
+      <div class="tab-content active" id="tab1">
+        <h2>My Account</h2>
+        <div class="account-info-wrapper">
+          <h3 class="section-title">Account Information</h3>
+          <div class="info-row">
+            <div class="info-box">
+              <h4>Contact Information</h4>
+              <p>yaspal shekwat</p>
+              <p>wordpressdev.fp@gmail.com</p>
+              <div class="links">
+                <a href="#">Edit</a>
+                <a href="#">Change Password</a>
+              </div>
+            </div>
+
+            <div class="info-box">
+              <h4>Newsletters</h4>
+              <p>You are subscribed to "General Subscription".</p>
+              <a href="#">Edit</a>
+            </div>
+          </div>
+
+
+          <div class="address-header">
+            <h4>Address Book</h4>
+            <a href="#">Manage Addresses</a>
+          </div>
+          
+          <div class="info-row defaultbilling">
+            <div class="info-box">
+              <h4>Default Billing Address</h4>
+              <p>You have not set a default billing address.</p>
+              <a href="#">Edit Address</a>
+            </div>
+
+            <div class="info-box">
+              <h4>Default Shipping Address</h4>
+              <p>You have not set a default shipping address.</p>
+              <a href="#">Edit Address</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab2">
+        <h2>My Orders</h2>
+        <div class="orderTable">
+          <table id="customTable" class="custom-table">
+            <thead>
+              <tr>
+                <th onclick="sortTable(0,this)">
+                  Name <span class="sort-icon">
+                   ▼
+                  </span>
+                </th>
+
+                <th onclick="sortTable(1,this)">
+                  Email <span class="sort-icon">
+                    ▼
+                  </span>
+                </th>
+
+                <th onclick="sortTable(2,this)">
+                  City <span class="sort-icon">▼</span>
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Rahul</td>
+                <td>rahul@email.com</td>
+                <td>Delhi</td>
+              </tr>
+
+              <tr>
+                <td>Mohit</td>
+                <td>mohit@email.com</td>
+                <td>Jaipur</td>
+              </tr>
+
+              <tr>
+                <td>Aman</td>
+                <td>aman@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab3">
+        <h2>My Quotes</h2>
+        <div class="orderTable">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Name <span class="sort-icon">▼</span></th>
+                <th>Email <span class="sort-icon">▼</span></th>
+                <th>City <span class="sort-icon">▼</span></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Mukesh</td>
+                <td>muesh@email.com</td>
+                <td>Delhi</td>
+              </tr>
+              <tr>
+                <td>Aman</td>
+                <td>aman@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Suni</td>
+                <td>sunil@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Nikhil</td>
+                <td>aman@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Yoges</td>
+                <td>sunil@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab4">
+        <h2>My Downloadable Products</h2>
+        <div class="orderTable">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Name <span class="sort-icon">▼</span></th>
+                <th>Email <span class="sort-icon">▼</span></th>
+                <th>City <span class="sort-icon">▼</span></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Navee</td>
+                <td>muesh@email.com</td>
+                <td>Delhi</td>
+              </tr>
+              <tr>
+                <td>Ram</td>
+                <td>aman@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Slient</td>
+                <td>sunil@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Nikhil</td>
+                <td>aman@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Yoges</td>
+                <td>sunil@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab5">
+        <h2>Address Book</h2>
+        <div class="addressbookformwrapper">
+          <form class="addressbookform">
+
+            <!-- Left Column -->
+            <div class="form-column">
+
+              <h3>Contact Information</h3>
+
+              <div class="form-group">
+                <label>First Name <span>*</span></label>
+                <input type="text" value="yaspal">
+              </div>
+
+              <div class="form-group">
+                <label>Last Name <span>*</span></label>
+                <input type="text" value="shekwat">
+              </div>
+
+              <div class="form-group">
+                <label>Company</label>
+                <input type="text">
+              </div>
+
+              <div class="form-group">
+                <label>Phone Number <span>*</span></label>
+                <input type="text">
+              </div>
+
+            </div>
+
+
+            <!-- Right Column -->
+            <div class="form-column">
+
+              <h3>Address</h3>
+              <div class="addressbx">
+                <div class="form-group">
+                  <label>Street Address <span>*</span></label>
+                  <input type="text">
+                </div>
+
+                <div class="form-group">
+                  <input type="text" placeholder="Street Address 2">
+                </div>
+
+                <div class="form-group">
+                  <label>Country <span>*</span></label>
+                  <select>
+                    <option>United States</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>State/Province <span>*</span></label>
+                  <input type="text">
+                </div>
+
+                <div class="form-group">
+                  <label>City <span>*</span></label>
+                  <input type="text">
+                </div>
+
+                <div class="form-group">
+                  <label>Zip/Postal Code <span>*</span></label>
+                  <input type="text">
+                </div>
+              </div>
+            </div>
+          </form>
+          <button button class="save-btn">Save Address 123</button>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab6">
+        <h2>Edit Account Information</h2>
+        <div class="accountinfoBx">
+          <h3>Account Information</h3>
+          <div class="form-group">
+            <label>First Name <span>*</span></label>
+            <input type="text" value="yaspal">
+          </div>
+          <div class="form-group">
+            <label>Last Name <span>*</span></label>
+            <input type="text" value="shekwat">
+          </div>
+
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="changeEmail"> Change Email</label>
+            <div class="change-email-box">
+              <h3>Change Email</h3>
+              <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="Enter new email">
+              </div>
+              <div class="form-group">
+              <label>Current Password</label>
+              <input type="password" placeholder="Enter current password">
+              </div>
+              </div>
+
+
+              <label><input type="checkbox" id="changePassword"> Change Password</label>
+
+              <div class="change-password-box">
+                <h3>Change Password</h3>
+              <div class="form-group">
+                <label>Current Password</label>
+                <input type="password">
+              </div>
+
+              <div class="form-group">
+                <label>New Password</label>
+                <input type="password" id="newPassword">
+              </div>
+
+              <div class="form-group">
+                <label>Confirm New Password</label>
+                <input type="password">
+              </div>
+
+              <div class="password-strength" id="passwordStrengthBox">
+                Password Strength: <span id="strengthText">Weak</span>
+              </div>
+              </div>
+
+            <div class="checkbox-row">
+              <label>
+                <input type="checkbox" checked>
+                Allow remote shopping assistance
+              </label>
+
+              <div class="tooltip-wrapper">
+              <span class="tooltip-icon">?</span>
+              <div class="tooltip-box">
+                This allows merchants to "see what you see" and take actions on your behalf in order to provide better assistance.
+              </div>
+              </div>
+              </div>
+          </div>
+          <h3>Additional Settings</h3>
+
+          <div class="form-group">
+            <label>Technician License Applied</label>
+            <select>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Technician License Approved</label>
+            <select>
+              <option>No</option>
+              <option>Yes</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Technician License File</label>
+            <input type="text" value="Yashpal">
+          </div>
+
+          <div class="form-group">
+            <label>Technician License Number</label>
+            <input type="text" value="ABoliksiee!@#">
+          </div>
+
+          <div class="form-group">
+            <label>License ID (File Upload)</label>
+            <input type="file">
+          </div>
+
+          <div class="form-group">
+            <label>Certified Refrigerant Technician</label>
+            <input type="text">
+          </div>
+
+          <div class="form-group">
+            <label>Refrigerant Reseller</label>
+            <select>
+              <option>No</option>
+              <option>Yes</option>
+            </select>
+          </div>
+          <button class="save-btn">Save</button>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab7">
+        <h2>Edit Refrigerant Certification</h2>
+        <div class="refrigerant">
+          <div class="form-group">
+            <label>License ID (File Upload)</label>
+            <input type="file">
+          </div>
+          <div class="form-group">
+            <label for="">Certifed Refrigerant Technician</label>
+             <input type="text">
+          </div>
+          <div class="form-group">
+            <label>Refrigerant Reseller</label>
+            <select>
+              <option>No</option>
+              <option>Yes</option>
+            </select>
+          </div>
+          <button class="save-btn">Save</button>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab8">
+        <h2>Stored Payment Methods</h2>
+        <div class="orderTable">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Name <span class="sort-icon">▼</span></th>
+                <th>Email <span class="sort-icon">▼</span></th>
+                <th>City <span class="sort-icon">▼</span></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Navee</td>
+                <td>muesh@email.com</td>
+                <td>Delhi</td>
+              </tr>
+              <tr>
+                <td>Ram</td>
+                <td>aman@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Slient</td>
+                <td>sunil@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Nikhil</td>
+                <td>aman@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Yoges</td>
+                <td>sunil@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab9">
+        <h2>My Product Reviews</h2>
+        <div class="orderTable">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Name <span class="sort-icon">▼</span></th>
+                <th>Email <span class="sort-icon">▼</span></th>
+                <th>City <span class="sort-icon">▼</span></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Navee</td>
+                <td>muesh@email.com</td>
+                <td>Delhi</td>
+              </tr>
+              <tr>
+                <td>Ram</td>
+                <td>aman@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Slient</td>
+                <td>sunil@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Nikhil</td>
+                <td>aman@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+              <tr>
+                <td>Yoges</td>
+                <td>sunil@email.com</td>
+                <td>Mumbai</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab10">
+        <h2>Newsletter Subscriptions</h2>
+        <div class="accountinfoBx">
+          <h3>Subscription option</h3>
+        </div>
+         <div class="checkbox-group">
+            <label><input type="checkbox" id="GeneralSubscription"> General Subscription</label>
+          </div>
+          <button class="save-btn Subscriptionbtn">Save</button>
+      </div>
+
+      <div class="tab-content" id="tab11">
+        <h2>My Payment Options</h2>
+      </div>
+    </div>
+  </div>
+
+</div>

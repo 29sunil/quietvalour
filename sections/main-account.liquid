@@ -1,0 +1,1187 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+{% assign license_id = customer.metafields.custom.certified_technician_license_id.value %}
+{% assign technician_name = customer.metafields.custom.name_of_certified_technician.value %}
+{% assign reseller = customer.metafields.custom.refrigerant_reseller.value %}
+{% assign licenceApplied = customer.metafields.custom.technician_license_applied.value %}
+{% assign licenceApproved = customer.metafields.custom.technician_license_approved.value %}
+{% assign licenseNumber = customer.metafields.custom.technician_license_number.value %}
+{% assign tech_license_file_name = customer.metafields.custom.technician_license_file.value %}
+{% assign activeStatus = customer.metafields.custom.customer_certificate_status.value %}
+
+{% assign countryAddress = customer.default.address.value %}
+
+<div class="account-wrapper">
+  <div class="container">
+    <!-- Sidebar -->
+    <button class="account-toggle-btn">
+      My Account Menu
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+      >
+        <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z">
+        </path>
+      </svg>
+    </button>
+    <div class="account-sidebar">
+      <ul class="account-menu">
+        <li class="active" data-tab="tab1"> <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"><path d="M11.03 2.59a1.501 1.501 0 0 1 1.94 0l7.5 6.363a1.5 1.5 0 0 1 .53 1.144V19.5a1.5 1.5 0 0 1-1.5 1.5h-5.75a.75.75 0 0 1-.75-.75V14h-2v6.25a.75.75 0 0 1-.75.75H4.5A1.5 1.5 0 0 1 3 19.5v-9.403c0-.44.194-.859.53-1.144ZM12 3.734l-7.5 6.363V19.5h5v-6.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v6.25h5v-9.403Z"></path></svg> My Account</li>
+
+        <li data-tab="tab2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"></path><path d="M12 2v4"></path><path d="M16 2v4"></path><rect width="16" height="18" x="4" y="4" rx="2"></rect><path d="M8 10h6"></path><path d="M8 14h8"></path><path d="M8 18h5"></path></svg>  My Orders</li>
+
+        <li data-tab="tab3"><svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" ><path fill-rule="evenodd" clip-rule="evenodd" d="M20 5H4V19H20V5ZM4 3C2.89543 3 2 3.89543 2 5V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V5C22 3.89543 21.1046 3 20 3H4Z" fill="currentColor"></path><path d="M9.06723 9.19629H12.0672L9.93267 14.8038H6.93267L9.06723 9.19629Z" fill="currentColor"></path><path d="M14.0672 9.19629H17.0672L14.9327 14.8038H11.9327L14.0672 9.19629Z" fill="currentColor"></path></svg> My Quotes</li>
+
+        <li data-tab="tab4"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" ><path d="M20 2C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20ZM5 20H19V4H5V20ZM13.4697 11.9775L16.7549 12.4551L14.3779 14.7725L14.9385 18.0449L12 16.5L9.06055 18.0449L9.62207 14.7725L7.24512 12.4551L10.5303 11.9775L12 9L13.4697 11.9775ZM16 8H8V6H16V8Z"></path></svg>  Technician Certification Request</li>
+
+        <li data-tab="tab5"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Address Book</li>
+
+        <li data-tab="tab6"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512"><path d="M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z"></path></svg> Account Information</li>
+
+        <li data-tab="tab7"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256"><path d="M224,56V90.06h0a44,44,0,1,0-56,67.88h0V192H40a8,8,0,0,1-8-8V56a8,8,0,0,1,8-8H216A8,8,0,0,1,224,56Z" opacity="0.2"></path><path d="M128,136a8,8,0,0,1-8,8H72a8,8,0,0,1,0-16h48A8,8,0,0,1,128,136Zm-8-40H72a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16Zm112,65.47V224A8,8,0,0,1,220,231l-24-13.74L172,231A8,8,0,0,1,160,224V200H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216a16,16,0,0,1,16,16V86.53a51.88,51.88,0,0,1,0,74.94ZM160,184V161.47A52,52,0,0,1,216,76V56H40V184Zm56-12a51.88,51.88,0,0,1-40,0v38.22l16-9.16a8,8,0,0,1,7.94,0l16,9.16Zm16-48a36,36,0,1,0-36,36A36,36,0,0,0,232,124Z"></path></svg> Refrigerant Certification</li>
+
+        <li data-tab="tab10"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"></path></svg> Newsletter Subscriptions</li>
+
+        <li class="account-logout">
+          <a href="{{ routes.account_logout_url }}" class="">
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"><path d="M5 22C4.44772 22 4 21.5523 4 21V3C4 2.44772 4.44772 2 5 2H19C19.5523 2 20 2.44772 20 3V6H18V4H6V20H18V18H20V21C20 21.5523 19.5523 22 19 22H5ZM18 16V13H11V11H18V8L23 12L18 16Z"></path></svg>
+            {{ 'customer.log_out' | t }}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="account-content">
+      <div class="tab-content active" id="tab1">
+        <h2>My Account</h2>
+
+        <div class="account-info-wrapper">
+          <h3 class="section-title">Account Information</h3>
+          <div class="info-row">
+            <div class="info-box">
+              <h4>Contact Information</h4>
+              <p>
+                {{ customer.first_name }}
+                {{ customer.last_name }}
+              </p>
+              <p>{{ customer.email }}</p>
+              <div class="links">
+                <a href="javascript:void(0);" onclick="openTab('tab6')">Edit</a>
+                <a href="/account/login#recover">Change Password</a>
+              </div>
+            </div>
+
+            <div class="info-box">
+              <h4>Newsletters</h4>
+              {% if customer.accepts_marketing %}
+                <p>You are subscribed to "General Subscription".</p>
+              {% else %}
+                <p>You Are Not Subscribed to "General Subscription".</p>
+              {% endif %}
+
+              <a href="javascript:void(0);" onclick="openTab('tab10')">Edit </a>
+            </div>
+          </div>
+
+          <div class="address-header">
+            <h4>Address Book</h4>
+            <a href="javascript:void(0);" onclick="openTab('tab5')">Manage Addresses</a>
+          </div>
+
+          <div class="info-row defaultbilling">
+            <div class="info-box">
+              <h4>Default Billing Address</h4>
+              {% if customer.default_address %}
+                <p>{{ customer.default_address | format_address }}</p>
+                <a href="javascript:void(0);" onclick="openTab('tab5')">Edit Address</a>
+              {% else %}
+                <p>You have not set a default shipping address.</p>
+              {% endif %}
+            </div>
+
+            {% comment %}
+              <div class="info-box">
+                <h4>Default Shipping Address</h4>
+                <p>You have not set a default shipping address.</p>
+                <a href="javascript:void(0);" onclick="openTab('tab5')">Edit Address</a>
+              </div>
+            {% endcomment %}
+          </div>
+        </div>
+      </div>
+
+      {% comment %}
+        <div class="tab-content" id="tab2">
+          <h2>My Orders</h2>
+          <div class="no-order">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12.8659 3.00017L22.3922 19.5002C22.6684 19.9785 22.5045 20.5901 22.0262 20.8662C21.8742 20.954 21.7017 21.0002 21.5262 21.0002H2.47363C1.92135 21.0002 1.47363 20.5525 1.47363 20.0002C1.47363 19.8246 1.51984 19.6522 1.60761 19.5002L11.1339 3.00017C11.41 2.52187 12.0216 2.358 12.4999 2.63414C12.6519 2.72191 12.7782 2.84815 12.8659 3.00017ZM4.20568 19.0002H19.7941L11.9999 5.50017L4.20568 19.0002ZM10.9999 16.0002H12.9999V18.0002H10.9999V16.0002ZM10.9999 9.00017H12.9999V14.0002H10.9999V9.00017Z">
+              </path>
+            </svg>
+            <p>You have placed no orders.</p>
+          </div>
+        </div>
+      {% endcomment %}
+      <div class="tab-content" id="tab2">
+        <h2>My Orders</h2>
+
+        {% if customer.orders.size > 0 %}
+          <div class="table-responsive">
+            <table id="ordersTable" class="orders-table display">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Date</th>
+                  <th>Item Qty</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for order in customer.orders %}
+                  {% assign total_qty = 0 %}
+
+                  {% for line_item in order.line_items %}
+                    {% assign total_qty = total_qty | plus: line_item.quantity %}
+                  {% endfor %}
+
+                  <tr>
+                    <!-- Order -->
+                    <td>{{ order.name }}</td>
+
+                    <!-- Date -->
+                    <td>{{ order.created_at | date: '%d %b %Y' }}</td>
+
+                    <!-- Total Qty -->
+                    <td>{{ total_qty }}</td>
+
+                    <!-- Status -->
+                    <td>
+                      <span class="badge"> {{ order.financial_status | capitalize }} </span>
+                    </td>
+
+                    <!-- Total -->
+                    <td>{{ order.total_price | money }}</td>
+
+                    <!-- Action -->
+                    <td>
+                      <a href="{{ order.customer_url }}" class="view-btn">View</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+        {% else %}
+          <p class="no-order">No orders found</p>
+        {% endif %}
+      </div>
+
+      <div class="tab-content" id="tab3">
+        <h2>My Quotes</h2>
+
+        <div id="no-data" class="no-order">
+          <p>You have placed no quotes.</p>
+        </div>
+
+        <table id="quotesTable" style="width:100%; display:none;">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Product</th>
+
+              <th>Created Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="tab-content" id="tab4">
+        
+        <h2>Technician Certification Request</h2>
+
+        {% if license_id and licenseNumber and activeStatus == 'Enabled' %}
+          <p class="alert alert-success no-order">Your Technician Certification Request has been approved.</p>
+
+        {% elsif license_id and licenseNumber %}
+          <p class="no-order">
+            You have already submitted your Technician Certification Request. Your request is currently under review.
+          </p>
+
+        {% else %}
+          <div class="refrigerant">
+            <form id="tech-certificate" class="tech_certificate" enctype="multipart/form-data">
+              <input type="hidden" name="action" value="tech_certificate_form">
+              <input type="hidden" name="customer_id" value="{{ customer.id }}">
+              <input type="hidden" name="existing_file" value="{{ license_id }}">
+
+              <div class="form-group">
+                <label>License ID (File Upload)</label>
+
+                {% if license_id %}
+                  <a
+                    class="viewfilebtn cm-req-tech"
+                    href="{% if license_id.media_type == 'image' %}{{ license_id | image_url }}{% else %}{{ license_id.url }}{% endif %}"
+                    target="_blank"
+                  >
+                    View File
+                  </a>
+
+                {% else %}
+                  <input
+                    type="file"
+                    name="license_file"
+                    id="license_file"
+                  >
+                {% endif %}
+              </div>
+
+              <div class="certifiedrefrigerant">
+                <div class="form-group">
+                  <label> Technician License Number </label>
+
+                  <input
+                    {% if licenseNumber != blank %}
+                      disabled
+                    {% endif %}
+                    type="text"
+                    name="tech_license_number"
+                    value="{{ licenseNumber }}"
+                  >
+                </div>
+              </div>
+            </form>
+
+            <div class="tech-request-save">
+              <button
+                type="button"
+                class="tech-request-save-btn"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="tab-content" id="tab5">
+        <div id="address-msg"></div>
+        <h2>Address Book</h2>
+        <div class="addressbookformwrapper">
+          <form id="address-book-form" class="addressbookform">
+            <input type="hidden" name="action" value="addressbookform">
+            <input type="hidden" name="customer_id" value="{{ customer.id }}">
+            <input type="hidden" name="address_id" value="{{ customer.default_address.id }}">
+
+            <!-- Left Column -->
+            <div class="form-column">
+              <h3>Contact Information</h3>
+
+              <div class="form-group">
+                <label>First Name <span>*</span></label>
+                <input type="text" name="custadd_firstname" value="{{ customer.default_address.first_name }}">
+                <small class="error-msg"></small>
+              </div>
+
+              <div class="form-group">
+                <label>Last Name <span>*</span></label>
+                <input type="text" name="custadd_lastname" value="{{ customer.default_address.last_name }}">
+                <small class="error-msg"></small>
+              </div>
+
+              <div class="form-group">
+                <label>Company</label>
+                <input type="text" name="custadd_company_name" value="{{ customer.default_address.company }}">
+              </div>
+
+              <div class="form-group">
+                <label>Phone Number <span>*</span></label>
+                <input type="number" name="custadd_phone" value="{{ customer.default_address.phone }}">
+                <small class="error-msg"></small>
+              </div>
+            </div>
+            <!-- Right Column -->
+            <div class="form-column">
+              <h3>Billing Address</h3>
+              <div class="addressbx">
+                <div class="form-group">
+                  <label>Street Address <span>*</span></label>
+                  <input type="text" name="custadd_address1" value="{{ customer.default_address.address1 }}">
+                  <small class="error-msg"></small>
+                </div>
+
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="custadd_address2"
+                    placeholder="Street Address 2"
+                    value="{{ customer.default_address.address2 }}"
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label>Country <span>*</span></label>
+                  <select name="custadd_country">
+                    <option></option>
+                  </select>
+                  <small class="error-msg"></small>
+                </div>
+
+                <div class="form-group">
+                  <label>State/Province <span>*</span></label>
+                  <select name="custadd_province">
+                    <option>{{ customer.default_address.province }}</option>
+                  </select>
+                  <small class="error-msg"></small>
+                </div>
+
+                <div class="form-group">
+                  <label>City <span>*</span></label>
+                  <input name="custadd_city" type="text" value="{{ customer.default_address.city }}">
+                  <small class="error-msg"></small>
+                </div>
+
+                <div class="form-group">
+                  <label>Zip/Postal Code <span>*</span></label>
+                  <input name="custadd_addZip" type="text" value="{{ customer.default_address.zip }}">
+                  <small class="error-msg"></small>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="address-save">
+            <button button class="address-save-btn">Save Address</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab6">
+        <h2>Edit Account Information</h2>
+        <div class="accountinfoBx">
+          <form id="account-info-form" class="accountnfoform">
+            <input type="hidden" name="action" value="accountnfoform">
+            <input type="hidden" name="customer_id" value="{{ customer.id }}">
+            <h3>Account Information</h3>
+            <div class="form-group">
+              <label>First Name <span>*</span></label>
+              <input name="cust_firstname" type="text" value="{{ customer.first_name }}">
+              <small class="error-msg"></small>
+            </div>
+            <div class="form-group">
+              <label>Last Name <span>*</span></label>
+              <input name="cust_lastname" type="text" value="{{ customer.last_name }}">
+              <small class="error-msg"></small>
+            </div>
+
+            <div class="checkbox-group">
+              <label><a class="changepassbtn" href="/account/login#recover">Change Password</a></label>
+            </div>
+            <h3>Additional Settings</h3>
+
+            <div class="form-group">
+              <label>Technician License Applied</label>
+              <select name="license_applied">
+                <option
+                  value="No"
+                  {% if licenceApplied == 'No' %}
+                    selected
+                  {% endif %}
+                >
+                  No
+                </option>
+                <option
+                  value="Yes"
+                  {% if licenceApplied == 'Yes' %}
+                    selected
+                  {% endif %}
+                >
+                  Yes
+                </option>
+              </select>
+            </div>
+
+            {% comment %}
+              <div class="form-group">
+                <label>Technician License Approved</label>
+                <input type="text" disabled value="{{ licenceApproved }}">
+              </div>
+            {% endcomment %}
+            {% comment %}
+              <div class="form-group">
+                <label>Technician License File</label>
+                <input type="text" name="tech_license_file" value="{{ tech_license_file_name }}">
+              </div>
+            {% endcomment %}
+
+            <div class="form-group">
+              <label>Technician License Number</label>
+              <input type="text" name="technician_no" value="{{ licenseNumber  }}">
+            </div>
+          </form>
+          <div class="address-save">
+            <button class="customer-save-btn">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab7">
+        <h2>Edit Refrigerant Certification</h2>
+
+        <div class="refrigerant">
+          <form id="certificate-form" class="certificate_form">
+            <input type="hidden" name="action" value="certificate_form">
+            <input type="hidden" name="customer_id" value="{{ customer.id }}">
+            <div class="form-group">
+              <label>License ID (File Upload)</label>
+              <input type="file" name="license_file" id="license_file">
+              <input type="hidden" name="existing_file" value="{{ license_id }}">
+              <input type="hidden" name="customer_id" value="{{ customer.id }}">
+              <div class="refrigerant">
+                <a
+                  class="viewfilebtn"
+                  href="{% if license_id.media_type == 'image' %}{{ license_id | image_url }}{% else %}{{ license_id.url }}{% endif %}"
+                  target="_blank"
+                  >View File</a
+                >
+              </div>
+            </div>
+            <div class="certifiedrefrigerant">
+              <div class="form-group">
+                <label for="">Certifed Refrigerant Technician</label>
+                <input type="text" name="technician_name" value="{{ technician_name  }}">
+              </div>
+              <div class="form-group">
+                <label>Refrigerant Reseller</label>
+                <select name="reseller">
+                  <option
+                    value="No"
+                    {% if reseller == 'No' %}
+                      selected
+                    {% endif %}
+                  >
+                    No
+                  </option>
+                  <option
+                    value="Yes"
+                    {% if reseller == 'Yes' %}
+                      selected
+                    {% endif %}
+                  >
+                    Yes
+                  </option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <div class="address-save">
+            <button class="ceritifacte-save-btn">Save</button>
+          </div>
+        </div>
+      </div>
+
+      {{ customer.metafields.custom.technician_license }}
+
+      <div class="tab-content" id="tab10">
+        <h2>Newsletter Subscriptions</h2>
+        <div class="accountinfoBx">
+          <h3>Subscription option</h3>
+        
+        <form id="general_subscriptionform">
+          <input type="hidden" name="customer_id" value="{{ customer.id }}">
+          <input type="hidden" name="action" value="gen_subscription">
+          <div class="checkbox-group">
+            <label>
+              <input
+                name="general_subscription"
+                type="checkbox"
+                {% if customer.accepts_marketing %}
+                  checked
+                {% endif %}
+                id="GeneralSubscription"
+              >
+              General Subscription</label
+            >
+          </div>
+        </form>
+        <button class="subscription-save-btn Subscriptionbtn">Save</button>
+        </div>
+      </div>
+
+      <div class="loader-holder" style="display:none;">
+        <span class="loader-98"> </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  style="display:none;"
+  class="customer account section section--padding"
+  style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="page-width">
+    <header class="customer__header flex md:flex-row flex-col justify-between items-center gap-4">
+      <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
+      <a href="{{ routes.account_logout_url }}" class="btn btn--primary">
+        {{ 'customer.log_out' | t }}
+      </a>
+    </header>
+
+    <div class="customer__body">
+      <div class="customer__sidebar flex flex-col gap-y-3">
+        <div class="customer__widget blocks-radius flex flex-col gap-y-3">
+          <h2 class="h3">{{ 'customer.account.details' | t }}</h2>
+          {{ customer.default_address | format_address }}
+          <a href="{{ routes.account_addresses_url }}" class="btn btn--underline self-start">
+            {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+          </a>
+        </div>
+      </div>
+      <div class="customer__content">
+        <div class="rich-text">
+          <h2 class="h3">{{ 'customer.orders.title' | t }}</h2>
+        </div>
+
+        {% paginate customer.orders by 20 %}
+          {%- if customer.orders.size > 0 -%}
+            <div class="table-container table-container--mobile-scrollable fixed-side">
+              <table role="table" class="table order-history">
+                <caption class="visually-hidden">
+                  {{ 'customer.orders.title' | t }}
+                </caption>
+                <thead role="rowgroup">
+                  <tr role="row">
+                    <th id="ColumnOrder" scope="col" role="columnheader" class="h6">
+                      {{ 'customer.orders.order_number' | t }}
+                    </th>
+                    <th id="ColumnDate" scope="col" role="columnheader" class="h6">{{ 'customer.orders.date' | t }}</th>
+                    <th id="ColumnPayment" scope="col" role="columnheader" class="h6">
+                      {{ 'customer.orders.payment_status' | t }}
+                    </th>
+                    <th id="ColumnFulfillment" scope="col" role="columnheader" class="h6">
+                      {{ 'customer.orders.fulfillment_status' | t }}
+                    </th>
+                    <th id="ColumnTotal" scope="col" role="columnheader" class="h6">
+                      {{ 'customer.orders.total' | t }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody role="rowgroup">
+                  {%- for order in customer.orders -%}
+                    <tr role="row">
+                      <td
+                        id="RowOrder"
+                        role="cell"
+                        headers="ColumnOrder"
+                        data-label="{{ 'customer.orders.order_number' | t }}"
+                      >
+                        <a
+                          href="{{ order.customer_url }}"
+                          aria-label="{{ 'customer.orders.order_number_link' | t: number: order.name }}"
+                          class="reversed-link"
+                        >
+                          {{ order.name }}
+                        </a>
+                      </td>
+                      <td headers="RowOrder ColumnDate" role="cell" data-label="{{ 'customer.orders.date' | t }}">
+                        {{ order.created_at | time_tag: format: 'date' }}
+                      </td>
+                      <td
+                        headers="RowOrder ColumnPayment"
+                        role="cell"
+                        data-label="{{ 'customer.orders.payment_status' | t }}"
+                      >
+                        {{ order.financial_status_label }}
+                      </td>
+                      <td
+                        headers="RowOrder ColumnFulfillment"
+                        role="cell"
+                        data-label="{{ 'customer.orders.fulfillment_status' | t }}"
+                      >
+                        {{ order.fulfillment_status_label }}
+                      </td>
+                      <td headers="RowOrder ColumnTotal" role="cell" data-label="{{ 'customer.orders.total' | t }}">
+                        {{ order.total_net_amount | money_with_currency }}
+                      </td>
+                    </tr>
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            </div>
+          {%- else -%}
+            <p>{{ 'customer.orders.none' | t }}</p>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            {%- if paginate.parts.size > 0 -%}
+              <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+                <ul role="list">
+                  {%- if paginate.previous -%}
+                    <li>
+                      <a href="{{ paginate.previous.url }}" aria-label="{{ 'general.pagination.previous' | t }}">
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+                        </svg>
+                      </a>
+                    </li>
+                  {%- endif -%}
+
+                  {%- for part in paginate.parts -%}
+                    <li>
+                      {%- if part.is_link -%}
+                        <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">
+                          {{- part.title -}}
+                        </a>
+                      {%- else -%}
+                        {%- if part.title == paginate.current_page -%}
+                          <span
+                            aria-current="page"
+                            aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
+                          >
+                            {{- part.title -}}
+                          </span>
+                        {%- else -%}
+                          <span>{{ part.title }}</span>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+
+                  {%- if paginate.next -%}
+                    <li>
+                      <a href="{{ paginate.next.url }}" aria-label="{{ 'general.pagination.next' | t }}">
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+                        </svg>
+                      </a>
+                    </li>
+                  {%- endif -%}
+                </ul>
+              </nav>
+            {%- endif -%}
+          {%- endif -%}
+        {% endpaginate %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+    .orders-table tbody tr {
+      border-bottom: 1px solid #eee;
+    }
+
+    .orders-table tbody tr:nth-child(odd) {
+      background: #fafafa;
+    }
+    .hide-text {
+    color: transparent;      /* text hide */
+    pointer-events: none;    /* click disable */
+  }
+
+  .hide-text a {
+    display: none;           /* button hide */
+  }
+
+  .error-msg {
+    color: red;
+    font-size: 12px;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .input-error {
+    border: 1px solid red;
+  }
+</style>
+<script>
+  $(document).ready(function () {
+    if (!$.fn.DataTable.isDataTable('#ordersTable')) {
+      $('#ordersTable').DataTable({
+        pageLength: 10,
+        ordering: true,
+        searching: true,
+        responsive: true,
+      });
+    }
+
+    const quoteEmail = '{{ customer.email }}';
+
+    if (!quoteEmail) return;
+
+    fetch('https://allinone.shopifydevelopmentcompany.com/api/get-quotes?email=' + encodeURIComponent(quoteEmail))
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.length > 0) {
+          $('#no-data').hide();
+          $('#quotesTable').show();
+
+          let rows = '';
+
+          data.forEach((item, index) => {
+            rows += `<tr>   
+            <td>${index + 1}</td> 
+            <td>${item.quote_description}</td>    
+                         
+            <td>${formatDate(item.created_at)}</td>
+            <td class="${item.status}">${item.status}</td>
+          </tr>`;
+          });
+
+          $('#quotesTable tbody').html(rows);
+
+          $('#quotesTable').DataTable({
+            columnDefs: [
+              {
+                targets: 0,
+                render: function (data, type, row, meta) {
+                  return meta.row + 1;
+                },
+              },
+            ],
+          });
+        }
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+      });
+  });
+
+  const loader = document.querySelector('.loader-holder');
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB'); //  DD/MM/YYYY
+  }
+
+  function openTab_old(tabId) {
+    // sab tabs hide
+    document.querySelectorAll('.tab-content').forEach((tab) => {
+      tab.classList.remove('active');
+    });
+
+    // sidebar active remove
+    document.querySelectorAll('.account-menu li').forEach((li) => {
+      li.classList.remove('active');
+    });
+
+    // selected tab show
+    document.getElementById(tabId).classList.add('active');
+
+    // sidebar active set
+    document.querySelector(`.account-menu li[data-tab="${tabId}"]`)?.classList.add('active');
+  }
+
+    document.querySelectorAll('.account-menu li[data-tab]').forEach((tab) => {
+
+      tab.addEventListener('click', function () {
+
+        openTab(this.dataset.tab);
+
+      });
+    });
+
+    window.addEventListener('load', function () {
+
+  const activeTab = localStorage.getItem('activeTab');
+
+  if (activeTab && document.getElementById(activeTab)) {
+    openTab(activeTab);
+  }
+
+});
+
+
+  function openTab(tabId) {
+
+  // active tab save
+  localStorage.setItem('activeTab', tabId);
+
+  document.querySelectorAll('.tab-content').forEach((tab) => {
+    tab.classList.remove('active');
+  });
+
+  document.querySelectorAll('.account-menu li').forEach((li) => {
+    li.classList.remove('active');
+  });
+
+  document.getElementById(tabId).classList.add('active');
+
+  document.querySelector(`.account-menu li[data-tab="${tabId}"]`)?.classList.add('active');
+}
+
+  document.querySelector('.customer-save-btn').addEventListener('click', async function (e) {
+    e.preventDefault();
+
+    let form = document.getElementById('account-info-form');
+    let isValid = true;
+
+    document.querySelectorAll('.error-msg').forEach((el) => (el.textContent = ''));
+    document.querySelectorAll('input').forEach((el) => el.classList.remove('input-error'));
+
+    let firstName = form.cust_firstname;
+    let lastName = form.cust_lastname;
+
+    if (firstName.value.trim() === '') {
+      showError(firstName, 'First name is required');
+      isValid = false;
+    }
+
+    if (lastName.value.trim() === '') {
+      showError(lastName, 'Last name is required');
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    const formData = new FormData(form);
+    formData.append('action', 'accountinfoform');
+
+    loader.style.display = 'flex';
+
+    try {
+      const res = await fetch('https://allinone.shopifydevelopmentcompany.com/api/customer-meta-update', {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert('Saved successfully');
+        location.reload();
+      } else {
+        alert(data.message || 'Something went wrong');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error submitting form');
+    } finally {
+      loader.style.display = 'none';
+    }
+  });
+
+  const saveBtnReq = document.querySelector('.tech-request-save-btn');
+
+  if (saveBtnReq) {
+    saveBtnReq.addEventListener('click', async function (e) {
+      e.preventDefault();
+
+      const form = document.getElementById('tech-certificate');
+      const formData = new FormData(form);
+
+      loader.style.display = 'flex';
+
+      const fileInput = document.getElementById('license_file');
+
+      // file field exists?
+      if (fileInput) {
+        if (fileInput.files.length > 0) {
+          console.log('Uploading new file');
+        } else {
+          console.log('No new file selected');
+        }
+      } else {
+        console.log('Using existing file');
+      }
+
+      try {
+        const res = await fetch('https://allinone.shopifydevelopmentcompany.com/api/customer-meta-update', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          alert('Submited successfully');
+          location.reload();
+        } else {
+          alert(data.message || 'Something went wrong');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error submitting form');
+      } finally {
+        loader.style.display = 'none';
+      }
+    });
+  }
+
+  document.querySelector('.ceritifacte-save-btn').addEventListener('click', async function (e) {
+    e.preventDefault();
+
+    const form = document.getElementById('certificate-form');
+    const formData = new FormData(form);
+    loader.style.display = 'flex';
+
+    const fileInput = document.getElementById('license_file');
+
+    if (!fileInput.files.length) {
+      console.log('Using existing file');
+    } else {
+      console.log('Uploading new file');
+    }
+
+    try {
+      const res = await fetch('https://allinone.shopifydevelopmentcompany.com/api/customer-meta-update', {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert('Saved successfully');
+        location.reload();
+      } else {
+        alert('Something went wrong');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error submitting form');
+    } finally {
+      loader.style.display = 'none';
+    }
+  });
+
+  document.querySelector('.subscription-save-btn').addEventListener('click', async function (e) {
+    e.preventDefault();
+
+    const form_subs = document.getElementById('general_subscriptionform');
+    const formData = new FormData(form_subs);
+    loader.style.display = 'flex';
+
+    try {
+      const res = await fetch('https://allinone.shopifydevelopmentcompany.com/api/customer-meta-update', {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert('Saved successfully');
+        location.reload();
+      } else {
+        alert('Something went wrong');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error submitting form');
+    } finally {
+      loader.style.display = 'none';
+    }
+  });
+
+  document.querySelector('.address-save-btn').addEventListener('click', async function (e) {
+    e.preventDefault();
+
+    let form = document.getElementById('address-book-form');
+    let isValid = true;
+
+    document.querySelectorAll('.error-msg').forEach((el) => (el.textContent = ''));
+    document.querySelectorAll('input').forEach((el) => el.classList.remove('input-error'));
+
+    let firstName = form.custadd_firstname;
+    let lastName = form.custadd_lastname;
+    let phone = form.custadd_phone;
+    let address = form.custadd_address1;
+    let city = form.custadd_city;
+    let zip = form.custadd_addZip;
+
+    if (firstName.value.trim() === '') {
+      showError(firstName, 'First name is required');
+      isValid = false;
+    }
+
+    if (lastName.value.trim() === '') {
+      showError(lastName, 'Last name is required');
+      isValid = false;
+    }
+
+    if (phone.value.trim() === '') {
+      showError(phone, 'Phone number is required');
+      isValid = false;
+    }
+
+    if (address.value.trim() === '') {
+      showError(address, 'Address is required');
+      isValid = false;
+    }
+
+    if (city.value.trim() === '') {
+      showError(city, 'City is required');
+      isValid = false;
+    }
+
+    if (zip.value.trim() === '') {
+      showError(zip, 'Zip code is required');
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    const formData = new FormData(form);
+    formData.append('action', 'addressbookform');
+
+    loader.style.display = 'flex';
+
+    try {
+      const res = await fetch('https://allinone.shopifydevelopmentcompany.com/api/customer-meta-update', {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert('Saved successfully');
+        location.reload();
+      } else {
+        alert(data.message || 'Something went wrong');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error submitting form');
+    } finally {
+      loader.style.display = 'none';
+    }
+  });
+
+  // Helper function
+  function showError(input, message) {
+    input.classList.add('input-error');
+    input.nextElementSibling.textContent = message;
+  }
+  const defaultCountry = "{{ customer.default_address.country | default: 'United States' | escape }}";
+  const defaultState = "{{ customer.default_address.province | default: 'Alabama' | escape }}";
+
+  const BillingCountryEl = document.querySelector('select[name="custadd_country"]');
+  const BillingStateEl = document.querySelector('select[name="custadd_province"]');
+
+  async function loadCountries(countryEl, stateEl) {
+    if (!countryEl) return;
+
+    const res = await fetch('https://countriesnow.space/api/v0.1/countries/positions');
+    const data = await res.json();
+
+    countryEl.innerHTML = '<option value="">-- Select Country --</option>';
+
+    if (data.data) {
+      data.data.sort((a, b) => a.name.localeCompare(b.name));
+
+      // fallback logic
+      let selectedCountry = defaultCountry || 'United States';
+
+      data.data.forEach((c) => {
+        const option = new Option(c.name, c.name);
+
+        if (c.name === selectedCountry) {
+          option.selected = true;
+        }
+
+        countryEl.add(option);
+      });
+
+      // Load states for selected country
+      loadStates(selectedCountry, stateEl);
+    }
+  }
+
+  async function loadStates(countryName, stateEl) {
+    if (!stateEl) return;
+
+    stateEl.innerHTML = '<option>Loading...</option>';
+
+    const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ country: countryName }),
+    });
+
+    const data = await res.json();
+
+    stateEl.innerHTML = '<option value="">-- Select State --</option>';
+
+    if (data.data?.states) {
+      data.data.states.sort((a, b) => a.name.localeCompare(b.name));
+
+      data.data.states.forEach((s) => {
+        const option = new Option(s.name, s.name);
+
+        // auto select state
+        if (s.name === defaultState) {
+          option.selected = true;
+        }
+
+        stateEl.add(option);
+      });
+    }
+  }
+
+  // Change event
+  BillingCountryEl?.addEventListener('change', (e) => {
+    const selected = e.target.value;
+
+    if (selected) {
+      loadStates(selected, BillingStateEl);
+    } else {
+      BillingStateEl.innerHTML = '<option value="">-- Select State --</option>';
+    }
+  });
+
+  // Initial load
+  loadCountries(BillingCountryEl, BillingStateEl);
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-account.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 100
+    }
+  ]
+}
+{% endschema %}

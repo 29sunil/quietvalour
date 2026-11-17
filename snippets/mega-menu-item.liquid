@@ -1,0 +1,70 @@
+{%- liquid
+  assign item_level = level | default: 2
+  assign next_level = item_level | plus: 1
+  assign item_handle = link.title | handle
+  assign item_id = parent_id | append: '-' | append: item_handle | append: '-' | append: item_level
+  assign has_children = false
+
+  if link.links != blank
+    assign has_children = true
+  endif
+-%}
+
+<li class="custom-mega-menu__item custom-mega-menu__item--level-{{ item_level }}" data-mega-menu-item data-level="{{ item_level }}">
+  <div class="custom-mega-menu__item-row">
+    <a
+      href="{{ link.url }}"
+      class="custom-mega-menu__link custom-mega-menu__link--level-{{ item_level }}"
+      {% if has_children %}
+        aria-describedby="{{ item_id }}-Toggle"
+      {% endif %}
+    >
+      {{- link.title | escape -}}
+    </a>
+
+    {%- if has_children -%}
+      <button
+        type="button"
+        id="{{ item_id }}-Toggle"
+        class="custom-mega-menu__toggle"
+        aria-expanded="false"
+        aria-controls="{{ item_id }}-Children"
+        data-mega-menu-toggle
+      >
+        <span class="visually-hidden">
+          {{- 'Expand ' | append: link.title | escape -}}
+        </span>
+        <svg
+          class="custom-mega-menu__toggle-icon"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    {%- endif -%}
+  </div>
+
+  {%- if has_children -%}
+    <ul
+      id="{{ item_id }}-Children"
+      class="custom-mega-menu__children custom-mega-menu__children--level-{{ next_level }}"
+      role="list"
+      data-mega-menu-panel
+      hidden
+    >
+      {%- for childlink in link.links -%}
+        {%- render 'mega-menu-item',
+          link: childlink,
+          level: next_level,
+          parent_id: item_id
+        -%}
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</li>

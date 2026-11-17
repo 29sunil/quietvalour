@@ -1,0 +1,61 @@
+<section class="wholesalers-content">
+  <div class="container">
+    <div class="applywholersellerbx">
+    {% if section.settings.top_link != blank %}
+        <h2>{{ section.settings.top_link_text }}</h2>
+    {% endif %}
+    <a class="wholesaler-link" href="{{ section.settings.top_link }}">
+      Apply Now <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"></path></svg>
+    </a>
+  </div>
+
+
+    {% if section.settings.hero_image %}
+      <div class="wholesaler-image">
+        <img
+          src="{{ section.settings.hero_image | image_url: width: 1200 }}"
+          alt=""
+        >
+      </div>
+    {% endif %}
+
+    <div class="wholesaler-text">
+      {{ section.settings.content }}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wholesaler Content",
+  "settings": [
+    {
+      "type": "url",
+      "id": "top_link",
+      "label": "Top Link URL"
+    },
+    {
+      "type": "text",
+      "id": "top_link_text",
+      "label": "Top Link Text",
+      "default": "Wholesaler Online Application >"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Top Image"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Main Content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesaler Content"
+    }
+  ]
+}
+{% endschema %}

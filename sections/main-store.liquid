@@ -1,0 +1,369 @@
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<div class="wrapper">
+<div class="storeLocator">
+    <div class="container">
+        <h1>Store locator</h1>
+        <div class="message notice store" role="alert"> <svg width="64px" height="64px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>warning-filled</title> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="add" fill="currentColor" transform="translate(32.000000, 42.666667)"> <path d="M246.312928,5.62892705 C252.927596,9.40873724 258.409564,14.8907053 262.189374,21.5053731 L444.667042,340.84129 C456.358134,361.300701 449.250007,387.363834 428.790595,399.054926 C422.34376,402.738832 415.04715,404.676552 407.622001,404.676552 L42.6666667,404.676552 C19.1025173,404.676552 7.10542736e-15,385.574034 7.10542736e-15,362.009885 C7.10542736e-15,354.584736 1.93772021,347.288125 5.62162594,340.84129 L188.099293,21.5053731 C199.790385,1.04596203 225.853517,-6.06216498 246.312928,5.62892705 Z M224,272 C208.761905,272 197.333333,283.264 197.333333,298.282667 C197.333333,313.984 208.415584,325.248 224,325.248 C239.238095,325.248 250.666667,313.984 250.666667,298.624 C250.666667,283.264 239.238095,272 224,272 Z M245.333333,106.666667 L202.666667,106.666667 L202.666667,234.666667 L245.333333,234.666667 L245.333333,106.666667 Z" id="Combined-Shape"> </path> </g> </g> </g></svg>Product availability may vary by store. We recommend contacting the store directly to confirm stock before visiting.</div>
+        <!-- LEFT LIST -->
+        <div class="sidebar" id="">
+            <div class="search-input">
+                <input autocomplete="off" id="locationInput" type="text" placeholder="Current location" />
+                <svg width="34px" height="34px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>search</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-256.000000, -1139.000000)" fill="#000000"> <path d="M269.46,1163.45 C263.17,1163.45 258.071,1158.44 258.071,1152.25 C258.071,1146.06 263.17,1141.04 269.46,1141.04 C275.75,1141.04 280.85,1146.06 280.85,1152.25 C280.85,1158.44 275.75,1163.45 269.46,1163.45 L269.46,1163.45 Z M287.688,1169.25 L279.429,1161.12 C281.591,1158.77 282.92,1155.67 282.92,1152.25 C282.92,1144.93 276.894,1139 269.46,1139 C262.026,1139 256,1144.93 256,1152.25 C256,1159.56 262.026,1165.49 269.46,1165.49 C272.672,1165.49 275.618,1164.38 277.932,1162.53 L286.224,1170.69 C286.629,1171.09 287.284,1171.09 287.688,1170.69 C288.093,1170.3 288.093,1169.65 287.688,1169.25 L287.688,1169.25 Z" id="search" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+
+            </div>
+            <div class="searchTitle">Search Radius , mi</div>
+            <ul id="suggestions"></ul>
+            <select id="radiusData">
+                <option value="25">25</option>
+                <option value="5">5</option>
+                <option value="10">10</option> 
+                <option value="15">15</option>
+                <option value="50">50</option> 
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="300">300</option> 
+                <option value="">Everywhere</option>
+            </select>
+
+            <button id="setUserSelectedLocation">Locate Nearby</button>
+        
+            <div id="storeList" class=""></div>
+            <div id="pagination" class="pagination"></div>
+        </div>
+
+        <!-- MAP -->
+        <div class="mapbox">
+            <div id="map"></div>
+        </div>
+       
+    </div>
+
+    {% comment %} <div class="loader-holder" style="display:none;">
+        <span class="loader"></span>
+    </div> {% endcomment %}
+    
+</div>
+</div>
+ <div class="loader-holder" style="display:none;">
+            <span class="loader-98"> </span>
+        </div>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+const input = document.getElementById('locationInput');
+const suggestions = document.getElementById('suggestions');
+const setUserSelectedLocation = document.getElementById('setUserSelectedLocation');
+
+input.addEventListener('keyup', function () {
+  const query = this.value;
+
+  if (query.length < 3) {
+    suggestions.innerHTML = '';
+    set_stores();
+    return;
+  }
+ fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+    .then(res => res.json())
+    .then(data => {
+      suggestions.innerHTML = '';
+
+      data.forEach(place => {
+        const li = document.createElement('li');
+        li.textContent = place.display_name;
+
+        li.addEventListener('click', () => {
+          input.value = place.display_name;
+          suggestions.innerHTML = '';
+          input.setAttribute('lat',place.lat);
+          input.setAttribute('lon',place.lon);
+
+          set_marker_location(place.lat,place.lon);
+        });
+
+        suggestions.appendChild(li);
+      });
+    });
+});
+
+setUserSelectedLocation.addEventListener('click',function(){
+ var selected_location = document.getElementById('locationInput');
+   var selectElement = document.getElementById("radiusData");
+
+ var userValue = selectElement.value;
+
+ var lat = selected_location.getAttribute('lat');
+ var long = selected_location.getAttribute('lon');
+
+  var returned_lat_long = getRadiusLatLng(lat, long, userValue);
+
+  if(selected_location.value == ''){
+  set_stores();
+}else{
+set_marker_location(returned_lat_long.lat,returned_lat_long.lng);
+  
+}
+
+
+
+});
+
+function create_map(){
+    
+    map = L.map('map').setView([40.72, -73.90], 5);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+}
+
+function getStateName(code) {
+    const states = {
+      1: "Alabama",
+      2: "Alaska",
+      3: "American Samoa",
+      4: "Arizona",
+      5: "Arkansas",
+      6: "Armed Forces Africa",
+      7: "Armed Forces Americas",
+      8: "Armed Forces Canada",
+      9: "Armed Forces Europe",
+      10: "Armed Forces Middle East",
+      11: "Armed Forces Pacific",
+      12: "California",
+      13: "Colorado",
+      14: "Connecticut",
+      15: "Delaware",
+      16: "District of Columbia",
+      17: "Federated States Of Micronesia",
+      18: "Florida",
+      19: "Georgia",
+      20: "Guam",
+      21: "Hawaii",
+      22: "Idaho",
+      23: "Illinois",
+      24: "Indiana",
+      25: "Iowa",
+      26: "Kansas",
+      27: "Kentucky",
+      28: "Louisiana",
+      29: "Maine",
+      30: "Marshall Islands",
+      31: "Maryland",
+      32: "Massachusetts",
+      33: "Michigan",
+      34: "Minnesota",
+      35: "Mississippi",
+      36: "Missouri",
+      37: "Montana",
+      38: "Nebraska",
+      39: "Nevada",
+      40: "New Hampshire",
+      41: "New Jersey",
+      42: "New Mexico",
+      43: "New York",
+      44: "North Carolina",
+      45: "North Dakota",
+      46: "Northern Mariana Islands",
+      47: "Ohio",
+      48: "Oklahoma",
+      49: "Oregon",
+      50: "Palau",
+      51: "Pennsylvania",
+      52: "Puerto Rico",
+      53: "Rhode Island",
+      54: "South Carolina",
+      55: "South Dakota",
+      56: "Tennessee",
+      57: "Texas",
+      58: "Utah",
+      59: "Vermont",
+      60: "Virgin Islands",
+      61: "Virginia",
+      62: "Washington",
+      63: "West Virginia",
+      64: "Wisconsin",
+      65: "Wyoming",
+    };
+
+    return states[code] || "Unknown State";
+  }
+
+create_map();
+let currentPage = 1;
+let lastPage = 1;
+
+function set_stores(page = 1) {
+    const storeList = document.getElementById('storeList');
+    const paginationDiv = document.getElementById('pagination');
+
+    if (!storeList || !paginationDiv) {
+        console.error("Required HTML elements missing: storeList or pagination");
+        return;
+    }
+
+    storeList.innerHTML = '';
+    paginationDiv.innerHTML = '';
+    //clearMarkers();
+
+    const elements = document.querySelector(".loader-holder");
+    
+
+     if (elements) {
+        elements.setAttribute("style","display:flex;");
+    }
+
+    fetch(`https://allinone.shopifydevelopmentcompany.com/api/get-initial-stores?page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+          elements.setAttribute("style","display:none;");
+
+            if (!data.success || !Array.isArray(data.locations)) {
+                console.error('Invalid response format');
+                return;
+            }
+
+            currentPage = data.pagination.current_page;
+            lastPage = data.pagination.last_page;
+
+            var counter = 0;
+
+            // 1️⃣ Add markers and sidebar stores
+            data.locations.forEach(store => {
+               const marker = L.marker([store.lat, store.lng]).addTo(map);
+
+let popupHtml = store.popup_html
+  .replace(/href="[^"]*"/g, 'href="javascript:void(0)"')
+  .replace(/target="[^"]*"/g, '');
+                marker.bindPopup(popupHtml);
+                
+                const div = document.createElement('div');
+                div.className = 'store';
+                div.innerHTML = `
+                    <strong>${store.name}</strong><br>
+                    City: ${store.city}<br>
+                    Zip: ${store.zip}<br>
+                    State: ${getStateName(store.state)}<br>
+                    Address: ${store.address}
+                `;
+
+                div.addEventListener('click', () => {
+                    map.setView([store.lat, store.lng], 14);
+                    marker.openPopup();
+                });
+
+                storeList.appendChild(div);
+                
+                if(counter == 0){
+                    div.click();
+                }
+                
+
+                counter++;
+            });
+
+            // 2️⃣ Render numeric pagination buttons
+            renderPagination();
+        })
+        .catch(err => console.error('Error:', err));
+}
+// Render numeric pagination buttons
+function renderPagination() {
+    const paginationDiv = document.getElementById('pagination');
+    if (!paginationDiv) return;
+    paginationDiv.innerHTML = '';
+
+    const maxPagesToShow = 5; // current ±2
+    const buttons = [];
+
+    let start = Math.max(1, currentPage - 2);
+    let end = Math.min(lastPage, currentPage + 2);
+
+    // Always show first page
+    if (start > 1) {
+        buttons.push(1);
+        if (start > 2) buttons.push('...');
+    }
+
+    // Current ±2 pages
+    for (let i = start; i <= end; i++) buttons.push(i);
+
+    // Always show last page
+    if (end < lastPage) {
+        if (end < lastPage - 1) buttons.push('...');
+        buttons.push(lastPage);
+    }
+
+    // Create buttons
+    buttons.forEach(p => {
+        if (p === '...') {
+            const span = document.createElement('span');
+            span.textContent = '...';
+            span.className = 'dots';
+            paginationDiv.appendChild(span);
+        } else {
+            const btn = document.createElement('button');
+            btn.textContent = p;
+            btn.className = p === currentPage ? 'active-page' : '';
+            btn.addEventListener('click', () => set_stores(p));
+            paginationDiv.appendChild(btn);
+        }
+    });
+}
+
+// Optional CSS for active page highlighting
+const style = document.createElement('style');
+style.innerHTML = `
+.pagination button {
+    margin: 0 3px;
+    padding: 5px 8px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: white;
+}
+.pagination button.active-page {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+}
+`;
+document.head.appendChild(style);
+
+document.addEventListener("DOMContentLoaded", function() {
+   set_stores();
+});
+
+function set_marker_location(lat,long){
+  markersLayer = L.layerGroup().addTo(map);
+
+  map.setView([lat, long], 11);
+  markersLayer.clearLayers();
+}
+ 
+
+function getRadiusLatLng(lat, lng, radiusKm) {
+
+    lat = Number(lat);
+    lng = Number(lng);
+    radiusKm = Number(radiusKm);
+
+    if (isNaN(lat) || isNaN(lng) || isNaN(radiusKm)) {
+        console.error('Invalid inputs:', { lat, lng, radiusKm });
+        return null;
+    }
+
+    const latDelta = radiusKm / 111;
+    const lngDelta = radiusKm / (111 * Math.cos(lat * Math.PI / 180));
+
+    return {
+        lat: +(lat + latDelta).toFixed(6),
+        lng: +(lng + lngDelta).toFixed(6)
+    };
+}
+</script>
+
+
+

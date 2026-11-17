@@ -1,0 +1,116 @@
+<section class="strategic-partners">
+  <div class="container">
+  <!-- HERO SECTION -->
+  <div class="partners-hero">
+     <h1>{{ section.settings.page_title }}</h1>
+    {% if section.settings.hero_image %}
+      <img src="{{ section.settings.hero_image | image_url: width: 1800 }}" alt="">
+    {% endif %}
+    <p>{{ section.settings.page_description }}</p>
+  </div>
+  <!-- PARTNERS LIST -->
+  <div class="partners-list">
+    {% for block in section.blocks %}
+      <div class="partner-item" {{ block.shopify_attributes }}>
+        <h6>{{ block.settings.country }}</h6>
+        <h3>{{ block.settings.company_name }}</h3>
+
+        <p>{{ block.settings.description }}</p>
+
+        <ul>
+          {% if block.settings.phone != blank %}
+            <li><strong>Tel:</strong> {{ block.settings.phone }}</li>
+          {% endif %}
+
+          {% if block.settings.fax != blank %}
+            <li><strong>Fax:</strong> {{ block.settings.fax }}</li>
+          {% endif %}
+
+          {% if block.settings.email != blank %}
+            <li><strong>Email:</strong>
+              <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a>
+            </li>
+          {% endif %}
+        </ul>
+
+        {% if block.settings.map_link != blank %}
+          <a class="viewmapbtn" href="{{ block.settings.map_link }}" target="_blank">View Map</a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  </div>
+
+</section>
+{% schema %}
+{
+  "name": "Strategic Partners",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page Title",
+      "default": "STRATEGIC PARTNERS"
+    },
+    {
+      "type": "textarea",
+      "id": "page_description",
+      "label": "Description"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "partner",
+      "name": "Partner",
+      "settings": [
+        {
+          "type": "text",
+          "id": "country",
+          "label": "Country"
+        },
+        {
+          "type": "text",
+          "id": "company_name",
+          "label": "Company Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone"
+        },
+        {
+          "type": "text",
+          "id": "fax",
+          "label": "Fax"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email"
+        },
+        {
+          "type": "url",
+          "id": "map_link",
+          "label": "Map Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Strategic Partners"
+    }
+  ]
+}
+{% endschema %}

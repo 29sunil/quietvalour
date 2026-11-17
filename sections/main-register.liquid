@@ -1,0 +1,335 @@
+<div id="form-message" class="form-message server-error" style="display:none;"></div>
+<div class="mainRegistration">
+
+<form id="custom-register-form" method="post" class="flex flex-col">
+  <div id="form-errors" class="form-error alert alert--error blocks-radius" style="display:none;"></div>
+  <input type="hidden" name="customer_type" value="general">
+  <div class="regbx">
+    <h2>Personal Information</h2>
+    <!-- First Name -->
+    <div class="form-field">
+      <label class="form-label">First Name <sup>*</sup></label>
+      <input type="text" id="first_name" name="first_name" class="form-control">
+      <span class="error" id="first_name_error"></span>
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-field">
+      <label class="form-label">Last Name <sup>*</sup></label>
+      <input type="text" id="last_name" name="last_name" class="form-control">
+      <span class="error" id="last_name_error"></span>
+    </div>
+
+    <!-- Email -->
+    <div class="form-field fullemail">
+      <label class="form-label">Email <sup>*</sup></label>
+      <input type="text" id="email" name="email" class="form-control">
+      <span class="error" id="email_error"></span>
+    </div>
+
+    <!-- Password -->
+    <div class="form-field">
+      <label class="form-label">Password <sup>*</sup></label>
+      <input type="password" name="password" id="password" class="form-control">
+      <span class="error" id="password_error"></span>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="form-field">
+      <label class="form-label">Confirm Password <sup>*</sup></label>
+      <input type="password" id="confirm_password" class="form-control">
+      <span class="error" id="confirm_password_error"></span>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="form-field fullform">
+      <input type="checkbox" id="is_subscribed" name="is_subscribed" value="true">
+      <label for="is_subscribed">Sign Up for Newsletter</label>
+    </div>
+
+    <!-- Assistance -->
+    {% comment %} <div class="form-field fullform">
+      <input type="checkbox" id="assistance_allowed" name="assistance_allowed" value="true">
+      <label for="assistance_allowed">Allow remote shopping assistance</label>
+    </div> {% endcomment %}
+
+  </div>
+
+  <div class="regbx">
+    <h2>Refrigerant Customers</h2>
+    <!-- Technician Name -->
+    <div class="form-field">
+      <label class="form-label">Name of Certified Technician</label>
+      <input type="text" name="technician_name" class="form-control">
+    </div>
+
+    <!-- License ID File -->
+    <div class="form-field">
+      <label class="form-label">Certified Technician's License ID</label>
+      <input type="file" name="license_file" class="form-control">
+    </div>
+
+    <!-- Refrigerant Reseller -->
+    <div class="form-field ">
+      <label class="form-label">Refrigerant Reseller</label>
+      <div class="refrigerantreseller">
+        <label> <input type="radio" checked name="refrigerant_reseller" value="No"> No</label>
+      </div>
+
+      <div class="refrigerantreseller">
+        <label> <input type="radio" name="refrigerant_reseller" value="Yes"> Yes</label>
+      </div>
+    </div>
+
+    <!-- License Applied -->
+    <h2>Additional Settings</h2>
+    
+    {% comment %} <div class="form-field">
+      <label class="form-label">Technician License Applied</label>
+      <select name="license_applied" class="form-control">
+        <option value="">Select option</option>
+        <option value="Yes">Yes</option>
+        <option selected value="No">No</option>
+      </select>
+    </div> {% endcomment %}
+
+    <!-- License Approved -->
+    {% comment %} <div class="form-field">
+      <label class="form-label">Technician License Approved</label>
+      <select name="license_approved" class="form-control">
+        <option value="">Select option</option>
+        <option value="Yes">Yes</option>
+        <option selected value="No">No</option>
+      </select>
+    </div> {% endcomment %}
+
+    <!-- Technician License File -->
+    {% comment %} <div class="form-field">
+      <label class="form-label">Technician License File</label>
+      <input type="text" name="license_file_name" class="form-control">
+    </div> {% endcomment %}
+
+    <!-- License Number -->
+    <div class="form-field">
+      <label class="form-label">Technician License Number</label>
+      <input type="text" name="license_number" class="form-control">
+    </div>
+  </div>
+  <button type="submit" class="btn btn--primary w-full">Create an Account</button>
+
+  <a href="{{ routes.account_login_url }}" class="btn btn--underline self-center"> Sign In </a>
+</form>
+<div class="loader-holder" style="display:none;">
+  <span class="loader-98"> </span>
+</div>
+</div>
+
+<style>
+  .error {
+    color: red;
+    font-size: 13px;
+    display: block;
+    margin-top: 5px;
+  }
+
+  .server-error {
+    color: #721c24;
+    background-color: #f8d7da;
+     border: 1px solid #f5c6cb;
+    text-align: center;
+    justify-content: center;
+    max-width: 800px;
+    margin: auto;
+    border-radius: 4px;
+}
+
+.server-success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 5px 3px;
+    text-align: center;
+    justify-content: center;
+    max-width: 800px;
+    margin: auto;
+    border-radius: 5px;
+}
+
+  .input-error {
+    border: 1px solid red;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const loader = document.querySelector('.loader-holder');
+    const form = document.getElementById('custom-register-form');
+
+    const firstName = document.getElementById('first_name');
+    const lastName = document.getElementById('last_name');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+
+    function showError(inputId, message) {
+      document.getElementById(inputId + '_error').textContent = message;
+      document.getElementById(inputId).classList.add('input-error');
+    }
+
+    function clearErrors() {
+      document.querySelectorAll('.error').forEach((el) => (el.textContent = ''));
+      document.querySelectorAll('.form-control').forEach((el) => el.classList.remove('input-error'));
+    }
+
+    // Remove error when typing
+    const inputs = form.querySelectorAll('input');
+
+    inputs.forEach((input) => {
+      input.addEventListener('input', function () {
+        // Remove red border
+        this.classList.remove('input-error');
+
+        // Clear individual field error
+        const errorElement = document.getElementById(this.id + '_error');
+        if (errorElement) {
+          errorElement.textContent = '';
+        }
+
+        // Hide top message box (server error/success)
+        const messageBox = document.getElementById('form-message');
+        if (messageBox) {
+          messageBox.style.display = 'none';
+          messageBox.classList.remove('error', 'success');
+          messageBox.innerHTML = '';
+        }
+      });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      let isValid = true;
+      clearErrors();
+
+      // First Name
+      if (firstName.value.trim() === '') {
+        showError('first_name', 'First name is required');
+        isValid = false;
+      }
+
+      // Last Name
+      if (lastName.value.trim() === '') {
+        showError('last_name', 'Last name is required');
+        isValid = false;
+      }
+
+      // Email
+      if (email.value.trim() === '') {
+        showError('email', 'Email is required');
+        isValid = false;
+      } else if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+        showError('email', 'Please enter a valid email address');
+        isValid = false;
+      }
+
+      // Password
+      if (password.value.trim() === '') {
+        showError('password', 'Password is required');
+        isValid = false;
+      } else if (password.value.trim().length < 8) {
+        showError('password', 'Password must be at least 8 characters long');
+        isValid = false;
+      }
+
+      // Confirm Password
+      if (confirmPassword.value.trim() === '') {
+        showError('confirm_password', 'Confirm password is required');
+        isValid = false;
+      } else if (password.value !== confirmPassword.value) {
+        showError('confirm_password', 'Passwords do not match');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        const firstError = document.querySelector('.input-error');
+        if (firstError) {
+          firstError.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
+          firstError.focus();
+        }
+        return;
+      }
+
+      // Submit via AJAX
+      const formData = new FormData(form);
+      loader.style.display = 'flex';
+
+      fetch('https://allinone.shopifydevelopmentcompany.com/api/customer-meta', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+        .then(async (res) => {
+          const data = await res.json();
+          return { status: res.status, body: data };
+        })
+        .then(({ status, body }) => {
+          loader.style.display = 'none';
+
+          const messageBox = document.getElementById('form-message');
+          messageBox.style.display = 'none';
+          messageBox.classList.remove('server-error', 'server-success');
+          messageBox.innerHTML = '';
+
+          //  SUCCESS
+          if (body.success) {
+            messageBox.style.display = 'block';
+            messageBox.classList.add('server-success');
+            messageBox.innerHTML = body.message || 'Registration successful!';
+
+            messageBox.scrollIntoView({ behavior: 'smooth' });
+
+            // Optional redirect delay
+            setTimeout(() => {
+              window.location.href = '/account';
+            }, 2000);
+
+            return;
+          }
+
+          //  VALIDATION ERROR (422)
+          if (status === 422 && body.errors) {
+            messageBox.style.display = 'block';
+            messageBox.classList.add('server-error');
+
+            let errorHtml = '';
+            Object.values(body.errors).forEach(function (messages) {
+              errorHtml += `<div>${messages[0]}</div>`;
+            });
+
+            messageBox.innerHTML = errorHtml;
+            messageBox.scrollIntoView({ behavior: 'smooth' });
+            return;
+          }
+
+          //  OTHER SERVER ERROR
+          messageBox.style.display = 'block';
+          messageBox.classList.add('server-error');
+          messageBox.innerHTML = body.error || 'Something went wrong.';
+          messageBox.scrollIntoView({ behavior: 'smooth' });
+        })
+        .catch((error) => {
+          loader.style.display = 'none';
+
+          const messageBox = document.getElementById('form-message');
+          messageBox.style.display = 'block';
+          messageBox.classList.add('error');
+          messageBox.innerHTML = 'Server error. Please try again.';
+        });
+    });
+  });
+</script>

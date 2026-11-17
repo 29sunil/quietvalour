@@ -1,0 +1,152 @@
+<section class="sales-wrapper">
+  <div class="container">
+  <div class="sales-header">
+    <small>{{ section.settings.area_text }}</small>
+    <h1>{{ section.settings.main_title }}</h1>
+  </div>
+
+  <div class="sales-container">
+
+    <!-- LEFT -->
+    <div class="sales-left">
+      {% if section.settings.left_image %}
+        <img src="{{ section.settings.left_image | img_url: '500x' }}" alt="">
+      {% endif %}
+
+      <ul class="contact-list">
+
+        {% if section.settings.show_Principal %}
+        <li><strong>Principal Contact:</strong> {{ section.settings.contact_name }}</li>
+        <li><strong>Email:</strong> <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></li>
+        <li><strong>Telephone:</strong> {{ section.settings.phone }}</li>
+        <li><strong>Fax:</strong> {{ section.settings.fax }}</li>
+         <li><strong>Address:</strong> {{ section.settings.address }}</li>
+        {% endif %}
+
+
+
+        <li>
+           {% if section.settings.show_President %}
+              <div class="presidentBx">
+                <ul>
+                  <li><strong>President:</strong> {{ section.settings.president_name }}</li>
+                  <li><strong>Email:</strong> <a href="mailto:{{ section.settings.president_email }}">{{ section.settings.president_email }}</a></li>
+                  <li><strong>Telephone:</strong> {{ section.settings.president_phone }}</li>
+                </ul>
+              </div>
+            {% endif %}
+        </li>
+
+        <li>
+           {% if section.settings.show_VicePresident %}
+              <div class="presidentBx">
+                <ul>
+                  <li><strong>Vice President:</strong> {{ section.settings.vice_president_name }}</li>
+                  <li><strong>Email:</strong> <a href="mailto:{{ section.settings.vice_president_email }}">{{ section.settings.vice_president_email }}</a></li>
+                  <li><strong>Telephone:</strong> {{ section.settings.vice_president_phone }}</li>
+                </ul>
+              </div>
+            {% endif %}
+        </li>
+
+
+        <li>
+          {% if section.settings.show_contacts %}
+            <div class="contact-persons">
+              <h2>John Hill:</h2>
+              <ul>
+                <li><strong>Tel:</strong> {{ section.settings.phone-person }}</li>
+                <li><strong>Email:</strong> <a href="mailto:{{ section.settings.email-person }}">{{ section.settings.email-person }}</a></li>
+              </ul>
+            </div>
+
+            <div class="contact-persons">
+              <h2>Bill Brummit:</h2>
+              <ul>
+                <li><strong>Tel:</strong> {{ section.settings.phone-brummit }}</li>
+                <li><strong>Email:</strong> <a href="mailto:{{ section.settings.email-brummit }}">{{ section.settings.email-brummit }}</a></li>
+              </ul>
+            </div>
+
+            <div class="contact-persons">
+              <h2>Bill Remington:</h2>
+              <ul>
+                <li><strong>Tel:</strong> {{ section.settings.phone-remington }}</li>
+                <li><strong>Email:</strong> <a href="mailto:{{ section.settings.email-remington }}">{{ section.settings.email-remington }}</a></li>
+              </ul>
+            </div>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="sales-right">
+      <h2>ABOUT</h2>
+      <p>{{ section.settings.about_text }}</p>
+
+      <h2>PRODUCT LINES</h2>
+      <p>{{ section.settings.product_text }}</p>
+      
+    </div>
+</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sales Company Layout",
+  "settings": [
+
+    { "type": "checkbox", "id": "show_Principal", "label": "Show Principle Section", "default": false },
+
+    { "type": "text", "id": "area_text", "label": "Top Area Text" },
+    { "type": "text", "id": "main_title", "label": "Main Title" },
+    { "type": "image_picker", "id": "left_image", "label": "Left Image" },
+
+    { "type": "text", "id": "contact_name", "label": "Principal Contact" },
+    { "type": "text", "id": "email", "label": "Email" },
+    { "type": "text", "id": "phone", "label": "Telephone" },
+    { "type": "text", "id": "fax", "label": "Fax" },
+    { "type": "textarea", "id": "address", "label": "Address" },
+
+
+    { "type": "textarea", "id": "about_text", "label": "About Content" },
+    { "type": "textarea", "id": "product_text", "label": "Product Lines Content" },
+ 
+
+    { "type": "checkbox", "id": "show_President", "label": "Show President", "default": false },
+    { "type": "text", "id": "president_name", "label": "President Name" },
+    { "type": "text", "id": "president_email", "label": "President Email" },
+    { "type": "text", "id": "president_phone", "label": "President Telephone" },
+
+
+
+  { "type": "checkbox", "id": "show_VicePresident", "label": "Show Vice President", "default": false },
+  { "type": "text", "id": "vice_president_name", "label": "Vice President Name" },
+  { "type": "text", "id": "vice_president_email", "label": "Vice President Email" },
+  { "type": "text", "id": "vice_president_phone", "label": "Vice President Telephone" },
+
+
+   { "type": "checkbox", "id": "show_contacts", "label": "Show Contact Persons Section", "default": false },
+    { "type": "text", "id": "phone-person", "label": "Person Tel" },
+    { "type": "text", "id": "email-person", "label": "Person Email" },
+    
+
+    { "type": "text", "id": "phone-brummit", "label": "Brummit Tel" },
+    { "type": "text", "id": "email-brummit", "label": "Brummit Email" },
+    
+
+    { "type": "text", "id": "phone-remington", "label": "Remington Tel" },
+    { "type": "text", "id": "email-remington", "label": "Remington Email" }
+    
+    
+
+  ],
+  "presets": [
+    {
+      "name": "Sales Company Layout"
+    }
+  ]
+}
+{% endschema %}

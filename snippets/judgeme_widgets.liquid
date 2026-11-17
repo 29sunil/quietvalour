@@ -1,0 +1,30 @@
+{% comment %}
+  Judge.me Widgets Snippet
+{% endcomment %}
+
+{% assign jdgm_widget_type = widget_type | default: 'judgeme_review_widget' %}
+
+{% if jdgm_widget_type == 'judgeme_review_widget' %}
+  <div id="judgeme_product_reviews" 
+       data-product-id="{{ product.id }}"
+       data-product-handle="{{ product.handle }}">
+    {% render 'judgeme_core' %}
+  </div>
+
+{% elsif jdgm_widget_type == 'judgeme_preview_badge' %}
+  <div class="jdgm-preview-badge" 
+       data-id="{{ product.id }}">
+    {% render 'judgeme_core' %}
+  </div>
+
+{% elsif jdgm_widget_type == 'judgeme_all_reviews_widget' %}
+  <div id="judgeme_all_reviews">
+    {% render 'judgeme_core' %}
+  </div>
+
+{% elsif jdgm_widget_type == 'judgeme_featured_carousel' %}
+  <div id="judgeme_featured_carousel">
+    {% render 'judgeme_core' %}
+  </div>
+
+{% endif %}

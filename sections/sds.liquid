@@ -1,0 +1,164 @@
+<div class="sdsmain">
+  <div class="container">
+    
+    <h1>{{ page.title }}</h1>
+    <!-- Loader -->
+    
+    <p>
+      To view and download <strong>Safety Data Sheets (SDS)</strong> for ComStar products,
+      <strong>just type the product name or stock number in the search box below:</strong>
+    </p>
+
+    <div class="sds-search-input-wrap">
+      <input type="text" id="sds-search-input" placeholder="Search/Filter...">
+    </div>
+
+    <div id="search-results-wrap" class="search-results-wrap">
+      
+      <div id="alpha-sds-list" class="alpha-sds-list"></div>
+    </div>
+  </div>
+  
+</div>
+
+<div class="loader-holder" style="display:none;">
+        <span class="loader-98"> </span>
+      </div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const loader = document.querySelector('.loader-holder');
+    const list = document.getElementById('alpha-sds-list');
+    const searchInput = document.getElementById('sds-search-input');
+    
+    loader.style.display = 'flex';
+
+    fetch('https://allinone.shopifydevelopmentcompany.com/api/get-sds-pdf')
+      .then((res) => res.json())
+      .then((data) => {
+
+        window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+
+        let pdfs = data.sds_pdf || [];
+
+       
+        pdfs = pdfs.map((item) => {
+          const div = document.createElement('div');
+          div.innerHTML = item.sds_id;
+
+          const link = div.querySelector('a');
+
+          let href = '';
+          let text = '';
+
+          if (link) {
+            href = (link.getAttribute('href') || '').trim().toLowerCase();
+            text = (link.textContent || '').trim();
+          }
+
+          return {
+            html: item.sds_id,
+            text,
+            href,
+          };
+        });
+
+        // 🔥 REMOVE DUPLICATES (TEXT based)
+        const uniqueMap = {};
+
+        pdfs.forEach((item) => {
+          const key = item.text
+            .toLowerCase()
+            .replace(/\s+/g, ' ')
+            .replace(/[^\w\s]/g, '')
+            .trim();
+
+          if (!uniqueMap[key]) {
+            uniqueMap[key] = item;
+          }
+        });
+
+        pdfs = Object.values(uniqueMap);
+
+        console.log('UNIQUE SDS COUNT:', pdfs.length);
+
+        // 🔥 Sort A–Z
+        pdfs.sort((a, b) => a.text.localeCompare(b.text));
+
+        function render(filtered = pdfs) {
+          list.innerHTML = '';
+          let currentLetter = '';
+
+          filtered.forEach((item) => {
+            const firstLetter = item.text.charAt(0).toUpperCase();
+
+            if (firstLetter !== currentLetter) {
+              currentLetter = firstLetter;
+
+              const section = document.createElement('div');
+              section.className = 'alpha-section';
+              section.innerHTML = `
+                <div class="alpha-section-heading">${currentLetter}</div>
+                <div class="catalog-list"></div>
+              `;
+              list.appendChild(section);
+            }
+
+            const catalog = list.lastElementChild.querySelector('.catalog-list');
+
+            const div = document.createElement('div');
+            div.className = 'catalog-item';
+            div.innerHTML = item.html;
+
+            catalog.appendChild(div);
+          });
+        }
+
+        // Initial render
+        render();
+
+        loader.style.display = 'none';
+
+        // 🔎 Search filter
+        searchInput.addEventListener('keyup', function () {
+          const val = this.value.toLowerCase().trim();
+          const filtered = pdfs.filter((p) =>
+            p.text.toLowerCase().includes(val)
+          );
+          render(filtered);
+        });
+        update_sds_pdf();
+      })
+      .catch((err) => {
+        console.error('SDS Fetch Error:', err);
+        loader.style.display = 'none';
+      });
+
+
+
+     function update_sds_pdf(){
+
+        console.log('update function is running');
+      
+          fetch('https://allinone.shopifydevelopmentcompany.com/api/get-sds-pdf-update')
+      .then((res) => res.json())
+      .then((data) => {
+
+        console.log('SDS Updated');
+       
+       
+      })
+      .catch((err) => {
+        console.error('SDS Fetch Error:', err);
+      
+      });
+      
+      } 
+      
+  });
+</script>
+

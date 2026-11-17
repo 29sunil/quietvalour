@@ -1,0 +1,646 @@
+<div class="container">
+  <div class="wholeform">
+    <h1>Wholesale Application</h1>
+    <div id="form-message" class="form-message server-error" style="display:none;"></div>
+    <div class="decorative-element"></div>
+    <div class="form-content">
+      <div class="progress-container">
+        {% comment %}
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        {% endcomment %}
+        <div class="progress-steps">
+          <span class="progress-step active" data-step="1" data-number="1">General Information</span>
+          <span class="progress-step" data-step="2" data-number="2">Address Information</span>
+          <span class="progress-step" data-step="3" data-number="3">Company Details</span>
+        </div>
+      </div>
+
+      <div class="error-message" id="errorMessage"></div>
+
+      <form id="multiStepForm" class="multistepformbx">
+        <input type="hidden" name="customer_type" value="wholesale" class="form-control">
+        <!-- Step 1 -->
+        <div class="form-step active" data-step="1">
+          <h3>General Information</h3>
+          <div class="form-group">
+            <label for="companyName">Company Name <span class="required">*</span></label>
+            <input type="text" id="companyName" name="companyName" required>
+          </div>
+
+          <div class="form-group">
+            <label for="companyWebsite">Company Website</label>
+            <input type="url" id="companyWebsite" name="companyWebsite">
+          </div>
+
+          <div class="form-group">
+            <label for="firstName">First Name <span class="required">*</span></label>
+            <input type="text" id="firstName" name="first_name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name <span class="required">*</span></label>
+            <input type="text" id="lastName" name="last_name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone <span class="required">*</span></label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email <span class="required">*</span></label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password <span class="required">*</span></label>
+            <input type="password" id="password" name="password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+          </div>
+
+          <div class="form-group">
+            <label for="fax">Fax</label>
+            <input type="text" id="fax" name="fax">
+          </div>
+
+          <div class="form-group">
+            <label for="accountingName">Accounting Contact Name <span class="required">*</span></label>
+            <input type="text" id="accountingName" name="accountingName" required>
+          </div>
+
+          <div class="form-group">
+            <label for="accountingPhone">Accounting Phone <span class="required">*</span></label>
+            <input type="tel" id="accountingPhone" name="accountingPhone" required>
+          </div>
+
+          <div class="form-group">
+            <label for="accountingEmail">Accounting Email <span class="required">*</span></label>
+            <input type="email" id="accountingEmail" name="accountingEmail" required>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="form-step" data-step="2">
+          <h3>Billing Address</h3>
+          <div class="form-group">
+            <label for="billingCountry">Country <span class="required">*</span></label>
+            <select id="billingCountry" name="billingCountry" class="form-control">
+              <option value="">Select country</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="billingState">State/Province <span class="required">*</span></label>
+            <select name="billingState" id="billingState" class="form-control" required>
+              <option value="">Select state</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="billingStreet">Street Address <span class="required">*</span></label>
+            <input type="text" id="billingStreet" name="billingStreet" required>
+          </div>
+
+          <div class="form-group">
+            <label for="billingCity">City <span class="required">*</span></label>
+            <input type="text" id="billingCity" name="billingCity" required>
+          </div>
+
+          <div class="form-group">
+            <label for="billingZip">Zip/Postal Code <span class="required">*</span></label>
+            <input type="text" id="billingZip" name="billingZip" required>
+          </div>
+
+          <!-- Checkbox -->
+          <div class="form-group shippingaddress" style="margin-top:20px;">
+            <label>
+              <input type="checkbox" name="sameAsBilling" id="sameAsBilling" value="true">
+              Ship to this address
+            </label>
+          </div>
+
+          <!-- Shipping Address -->
+
+          <div id="shippingSection" style="display:none; margin-top:30px;">
+            <h3>Shipping Address</h3>
+
+            <div class="form-group">
+              <label for="shippingCountry">Country <span class="required">*</span></label>
+
+              <select id="shippingCountry" name="shippingCountry" class="form-control ">
+                <option value="">Select country</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="shippingState">State/Province <span class="required">*</span></label>
+
+              <select name="shippingState" id="shippingState" class="form-control">
+                <option value="">Select state</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="shippingStreet">Street Address <span class="required">*</span></label>
+              <input type="text" id="shippingStreet" name="shippingStreet">
+            </div>
+
+            <div class="form-group">
+              <label for="shippingCity">City <span class="required">*</span></label>
+              <input type="text" id="shippingCity" name="shippingCity">
+            </div>
+
+            <div class="form-group">
+              <label for="shippingZip">Zip/Postal Code <span class="required">*</span></label>
+
+              <input type="text" id="shippingZip" name="shippingZip">
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="form-step" data-step="3">
+          <h3>Company Details</h3>
+
+          <!-- Sell Online -->
+          <div class="form-group">
+            <label>Do you currently sell online? <span class="required">*</span> </label>
+            <div class="currentlysell">
+              <label>
+                <input type="radio" name="sellOnline" value="no" checked>
+                No
+              </label>
+              <label>
+                <input type="radio" name="sellOnline" value="yes">
+                Yes
+              </label>
+            </div>
+          </div>
+
+          <!-- Websites Field (Hidden by default) -->
+          <div class="form-group" id="websiteGroup" style="display:none;">
+            <label for="websites">If so, on what websites? <span class="required">*</span></label>
+            <input type="text" id="websites" name="websites">
+          </div>
+
+          <!-- Business Type -->
+          <div class="form-group">
+            <label for="businessType">Business Type <span class="required">*</span></label>
+            <select class="form-control" id="businessType" name="businessType" required>
+              <option value="">Please select</option>
+              <option value="Heating Wholesaler">Heating Wholesaler</option>
+              <option value="Plumbing Wholesaler">Plumbing Wholesaler</option>
+              <option value="Heating & Plumbing Wholesaler">Heating & Plumbing Wholesaler</option>
+              <option value="Air Conditioning Wholesaler">Air Conditioning Wholesaler</option>
+              <option value="Hardware Wholesaler">Hardware Wholesaler</option>
+              <option value="Heating & AC Product Wholesaler">Heating & AC Product Wholesaler</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <!-- State Resale Tax ID -->
+          <div class="form-group">
+            <label for="taxId">State Resale Tax ID# (if applicable)</label>
+            <input type="text" id="taxId" name="taxId">
+          </div>
+
+          <!-- EIN -->
+          <div class="form-group">
+            <label for="ein">EIN <span class="required">*</span></label>
+            <input type="text" id="ein" name="ein" required>
+          </div>
+
+          <!-- Tax Exemption -->
+          <div class="form-group">
+            <label for="taxForm">Tax Exemption Form <span class="required">*</span></label>
+            <input type="file" id="taxForm" name="taxForm" required>
+          </div>
+
+          <!-- Terms -->
+          <div class="form-group shippingaddress">
+            <label>
+              <input type="checkbox" name="agreeTerms" id="agreeTerms" required>
+              I agree to the above terms and conditions <span class="required">*</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn-secondary" id="prevBtn" style="display: none;">Back</button>
+          <button type="button" class="btn-primary" id="nextBtn">Continue</button>
+        </div>
+      </form>
+
+      <div class="loader-holder" style="display:none;">
+        <span class="loader-98"> </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+
+  .server-error {
+    color: #721c24;
+    background-color: #f8d7da;
+     border: 1px solid #f5c6cb;
+    text-align: center;
+    justify-content: center;
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+.server-success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 5px 3px;
+    text-align: center;
+    justify-content: center;
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    const form = document.getElementById('multiStepForm');
+    const formSteps = document.querySelectorAll('.form-step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+
+    const sameAsBilling = document.getElementById('sameAsBilling');
+    const shippingSection = document.getElementById('shippingSection');
+
+    const sellOnlineRadios = document.querySelectorAll('input[name="sellOnline"]');
+    const websiteGroup = document.getElementById('websiteGroup');
+    const websitesInput = document.getElementById('websites');
+
+    const loader = document.querySelector('.loader-holder');
+
+    const BillingCountryEl = document.querySelector('select[name="billingCountry"]');
+    const ShippingCountryEl = document.querySelector('select[name="shippingCountry"]');
+    const BillingStateEl = document.querySelector('select[name="billingState"]');
+    const ShippingStateEl = document.querySelector('select[name="shippingState"]');
+
+    /* ================= COUNTRY + STATE ================= */
+
+    async function loadCountries(countryEl, stateEl) {
+      if (!countryEl) return;
+
+      const res = await fetch('https://countriesnow.space/api/v0.1/countries/positions');
+      const data = await res.json();
+
+      countryEl.innerHTML = '<option value="">-- Select Country --</option>';
+
+      if (data.data) {
+        data.data.sort((a, b) => a.name.localeCompare(b.name));
+
+        data.data.forEach((c) => {
+          const option = new Option(c.name, c.name);
+          countryEl.add(option);
+          if (c.name === 'United States') option.selected = true;
+        });
+
+        loadStates('United States', stateEl);
+      }
+    }
+
+    async function loadStates(countryName, stateEl) {
+      if (!stateEl) return;
+
+      stateEl.innerHTML = '<option>Loading...</option>';
+
+      const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country: countryName }),
+      });
+
+      const data = await res.json();
+      stateEl.innerHTML = '<option value="">-- Select State --</option>';
+
+      if (data.data?.states) {
+        data.data.states.sort((a, b) => a.name.localeCompare(b.name));
+        data.data.states.forEach((s) => {
+          stateEl.add(new Option(s.name, s.name));
+        });
+      }
+    }
+
+    BillingCountryEl?.addEventListener('change', (e) => {
+      e.target.value
+        ? loadStates(e.target.value, BillingStateEl)
+        : (BillingStateEl.innerHTML = '<option value="">-- Select State --</option>');
+    });
+
+    ShippingCountryEl?.addEventListener('change', (e) => {
+      e.target.value
+        ? loadStates(e.target.value, ShippingStateEl)
+        : (ShippingStateEl.innerHTML = '<option value="">-- Select State --</option>');
+    });
+
+    loadCountries(BillingCountryEl, BillingStateEl);
+    loadCountries(ShippingCountryEl, ShippingStateEl);
+
+    /* ================= SHIPPING TOGGLE ================= */
+
+    function toggleShipping() {
+      if (!sameAsBilling || !shippingSection) return;
+
+      const shippingFields = shippingSection.querySelectorAll('input, select');
+
+      if (sameAsBilling.checked) {
+        shippingSection.style.display = 'none';
+        shippingFields.forEach((f) => f.removeAttribute('required'));
+      } else {
+        shippingSection.style.display = 'flex';
+        shippingFields.forEach((f) => f.setAttribute('required', 'required'));
+      }
+    }
+
+    sameAsBilling?.addEventListener('change', toggleShipping);
+    toggleShipping();
+
+    /* ================= SELL ONLINE ================= */
+
+    function toggleWebsiteField(value) {
+      if (!websiteGroup) return;
+
+      if (value === 'yes') {
+        websiteGroup.style.display = 'block';
+        websitesInput?.setAttribute('required', 'required');
+      } else {
+        websiteGroup.style.display = 'none';
+        websitesInput?.removeAttribute('required');
+        if (websitesInput) websitesInput.value = '';
+      }
+    }
+
+    sellOnlineRadios.forEach((radio) => {
+      radio.addEventListener('change', function () {
+        toggleWebsiteField(this.value);
+      });
+      if (radio.checked) toggleWebsiteField(radio.value);
+    });
+
+    /* ================= VALIDATION ================= */
+
+    function validateStep() {
+      let isValid = true;
+
+      const currentStepElement = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+      const requiredInputs = currentStepElement.querySelectorAll('[required]');
+
+      clearErrors(currentStepElement);
+
+      requiredInputs.forEach((input) => {
+        if (input.offsetParent === null) return;
+
+        // CHECKBOX
+        if (input.type === 'checkbox') {
+          if (!input.checked) {
+            showFieldError(input, 'You must agree before continuing.');
+            isValid = false;
+          }
+          return;
+        }
+
+        // RADIO
+        if (input.type === 'radio') {
+          const group = currentStepElement.querySelectorAll(`[name="${input.name}"]`);
+          const checked = Array.from(group).some((r) => r.checked);
+
+          if (!checked) {
+            showFieldError(group[0], 'This is a required field.');
+            isValid = false;
+          }
+          return;
+        }
+
+        // TEXT / SELECT
+        if (!input.value.trim()) {
+          showFieldError(input, 'This is a required field.');
+          isValid = false;
+          return;
+        }
+
+        // EMAIL
+        if (input.type === 'email' && !isValidEmail(input.value)) {
+          showFieldError(input, 'Please enter a valid email.');
+          isValid = false;
+        }
+        // PASSWORD MIN LENGTH
+        if (input.type === 'password' && input.value.trim().length < 8) {
+          showFieldError(input, 'Password must be at least 8 characters long.');
+          isValid = false;
+        }
+      });
+
+      if (!isValid) {
+        scrollToFirstError(currentStepElement);
+      }
+
+      return isValid;
+    }
+
+    function scrollToFirstError(stepElement) {
+      const firstError = stepElement.querySelector('.input-error');
+
+      if (firstError) {
+        const yOffset = -100;
+        const y = firstError.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+        window.scrollTo({ top: y, behavior: 'smooth' });
+
+        firstError.focus();
+      }
+    }
+
+    function showFieldError(input, message) {
+      const container = input.closest('.form-group') || input.parentElement;
+
+      input.classList.add('input-error');
+
+      const error = document.createElement('div');
+      error.className = 'field-error-message';
+      error.innerText = message;
+
+      container.appendChild(error);
+    }
+
+    function clearErrors(stepElement) {
+      stepElement.querySelectorAll('.field-error-message').forEach((el) => el.remove());
+      stepElement.querySelectorAll('.input-error').forEach((el) => el.classList.remove('input-error'));
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    /* ================= REAL TIME ERROR REMOVE ================= */
+
+    form.addEventListener('input', function (e) {
+      const field = e.target;
+
+      if (field.classList.contains('input-error') && field.value.trim() !== '') {
+        field.classList.remove('input-error');
+        const errorMsg = field.closest('.form-group')?.querySelector('.field-error-message');
+        if (errorMsg) errorMsg.remove();
+      }
+    });
+
+    form.addEventListener('change', function (e) {
+      const field = e.target;
+
+      if (field.type === 'checkbox' && field.checked) {
+        field.classList.remove('input-error');
+        const errorMsg = field.closest('.form-group')?.querySelector('.field-error-message');
+        if (errorMsg) errorMsg.remove();
+      }
+
+      if (field.tagName === 'SELECT' || field.type === 'radio') {
+        field.classList.remove('input-error');
+        const errorMsg = field.closest('.form-group')?.querySelector('.field-error-message');
+        if (errorMsg) errorMsg.remove();
+      }
+    });
+
+    /* ================= PROGRESS ================= */
+
+    function updateProgress() {
+      progressSteps.forEach((step, index) => {
+        const stepNum = index + 1;
+        step.classList.remove('active', 'completed');
+
+        if (stepNum < currentStep) step.classList.add('completed');
+        else if (stepNum === currentStep) step.classList.add('active');
+      });
+
+      formSteps.forEach((step) => {
+        step.classList.remove('active');
+        if (parseInt(step.dataset.step) === currentStep) {
+          step.classList.add('active');
+        }
+      });
+
+      prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
+      nextBtn.textContent = currentStep === totalSteps ? 'Submit' : 'Continue';
+    }
+
+    /* ================= SUBMIT ================= */
+
+    function collectFormData() {
+      const formData = new FormData(form);
+      loader.style.display = 'flex';
+
+    fetch('https://allinone.shopifydevelopmentcompany.com/api/customer-meta', {
+  method: 'POST',
+  body: formData,
+  headers: { Accept: 'application/json' },
+})
+  .then(async (res) => {
+    const data = await res.json();
+    return { status: res.status, body: data };
+  })
+  .then(({ status, body }) => {
+    loader.style.display = 'none';
+
+    const messageBox = document.getElementById('form-message');
+    messageBox.style.display = 'none';
+    messageBox.classList.remove('server-error', 'server-success');
+    messageBox.innerHTML = '';
+
+    // ✅ SUCCESS
+    if (body.success) {
+      messageBox.style.display = 'block';
+      messageBox.classList.add('server-success');
+      messageBox.innerHTML = body.message || 'Wholesale Registration successful!';
+
+      messageBox.scrollIntoView({ behavior: 'smooth' });
+
+      setTimeout(() => {
+        window.location.href = '/account';
+      }, 2000);
+
+      return;
+    }
+
+    //  VALIDATION ERROR (422)
+    if (status === 422 && body.errors) {
+      messageBox.style.display = 'block';
+       messageBox.classList.add('server-error');
+
+      let errorHtml = '';
+      Object.values(body.errors).forEach(function (messages) {
+        errorHtml += `<div>${messages[0]}</div>`;
+      });
+
+      messageBox.innerHTML = errorHtml;
+      messageBox.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    //  OTHER SERVER ERROR
+    messageBox.style.display = 'block';
+    messageBox.classList.add('server-error');
+    messageBox.innerHTML = body.error || 'Something went wrong.';
+    messageBox.scrollIntoView({ behavior: 'smooth' });
+  })
+  .catch(() => {
+    loader.style.display = 'none';
+
+    const messageBox = document.getElementById('form-message');
+    messageBox.style.display = 'block';
+    messageBox.classList.add('server-error');
+    messageBox.innerHTML = 'Server error. Please try again.';
+    messageBox.scrollIntoView({ behavior: 'smooth' });
+  });
+    }
+
+    /* ================= BUTTON EVENTS ================= */
+
+    nextBtn.addEventListener('click', () => {
+      if (!validateStep()) return;
+
+      if (currentStep === 1) {
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+
+        if (password && confirmPassword && password.value !== confirmPassword.value) {
+          showFieldError(confirmPassword, 'Passwords do not match.');
+          return;
+        }
+      }
+
+      if (currentStep === totalSteps) {
+        collectFormData();
+      } else {
+        currentStep++;
+        updateProgress();
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentStep > 1) {
+        currentStep--;
+        updateProgress();
+      }
+    });
+
+    updateProgress();
+  });
+</script>

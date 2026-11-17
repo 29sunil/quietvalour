@@ -1,0 +1,51 @@
+<div class="sitemapbx">
+    <div class="container">
+        <h1>Site Map</h1>
+        <div class="row sitemap">
+            <div class="col-md-12 col-lg-6">
+                <h2>Collections</h2>
+                <ul>
+                    {% for collection in collections %}
+                    <li>
+                        <a href="{{ collection.url }}">{{ collection.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+            <div class="col-md-12 col-lg-6">
+                <h2>Products</h2>
+                <ul>
+                    {% for product in collections.all.products %}
+                    <li>
+                        <a href="{{ product.url }}">{{ product.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-12 col-lg-6">
+                <h2>Pages</h2>
+                <ul>
+                    {% for page in pages %}
+                    <li>
+                        <a href="{{ page.url }}">{{ page.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-12 col-lg-6">
+                <h2>Blogs</h2>
+                <ul>
+                    {% for blog in blogs %}
+                    <li>
+                        <a href="{{ blog.url }}">{{ blog.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

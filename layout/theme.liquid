@@ -1,0 +1,520 @@
+{%- liquid
+  assign enable_rtl = settings.enable_rtl
+  assign language_support_rtl = settings.language_support_rtl
+  
+  if enable_rtl and language_support_rtl != blank
+    assign shop_locale = localization.language.iso_code
+    assign language_support_rtl_list = language_support_rtl | split: ','
+    assign is_rtl = language_support_rtl_list | where: shop_locale
+    if is_rtl.size > 0
+      assign enable_rtl = true
+    else
+      assign enable_rtl = false
+    endif
+  endif
+-%}
+
+{% assign pricing_group = customer.metafields.custom.pricing_group.value %}
+{% assign cert_status = customer.metafields.custom.customer_certificate_status.value %}
+
+<!doctype html>
+<html
+  class="no-js{% if cart != empty %} cart-has-items{% endif %}"
+  lang="{{ request.locale.iso_code }}"
+  {% if enable_rtl %}
+    dir="rtl"
+  {% endif %}
+>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    <title>
+      {{- page_title -}}
+      {%- if current_tags -%}
+        {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+      {%- endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+      {%- if template == 'password' -%}
+        {{- shop.name -}}
+      {%- else -%}
+        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- endif -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {%- liquid
+      render 'meta-tags'
+      render 'css-variables'
+
+      echo 'vendor.css' | asset_url | stylesheet_tag: preload: true
+      echo 'theme.css' | asset_url | stylesheet_tag: preload: true
+
+      if enable_rtl
+        echo 'rtl.css' | asset_url | stylesheet_tag: preload: true
+      endif
+    -%}
+
+    {{ content_for_header }}
+
+    <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+
+    <script src="{{ 'custom-script.js?llk' | asset_url }}" defer="defer"></script>
+
+    {%- if request.page_type contains 'customers/' -%}
+      <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    <script>
+      if (Shopify.designMode) {
+        document.documentElement.classList.add('shopify-design-mode');
+      }
+    </script>
+
+    {%- if request.design_mode -%}
+      <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {%- render 'js-variables' -%}
+
+    {% comment %} Custom metafield for head tag like GTag tracking {% endcomment %}
+    {{ shop.metafields.foxtheme.code_head.value }}
+    {% comment %} End custom metafield for head tag like GTag tracking {% endcomment %}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ 'future.css' | asset_url }}">
+
+    {% if template == 'index' %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // Check if popup has been closed before (cookie present)
+          const isPopupClosed = document.cookie.split('; ').find((row) => row.startsWith('offerPopupClosed='));
+
+          if (!isPopupClosed) {
+            // Show modal after 1 second only if cookie not set
+            setTimeout(function () {
+              const modal = document.getElementById('offerModal');
+              if (modal) {
+                modal.style.display = 'flex';
+              }
+            }, 1000);
+          }
+
+          // Function to close modal and set cookie
+          function closeOfferModal() {
+            const modal = document.getElementById('offerModal');
+            if (modal) {
+              modal.style.display = 'none';
+            }
+
+            // Set cookie for 30 days
+            const date = new Date();
+            date.setTime(date.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
+            document.cookie = 'offerPopupClosed=true; expires=' + date.toUTCString() + '; path=/';
+          }
+
+          // Event delegation for close buttons
+          document.addEventListener('click', function (e) {
+            if (e.target.closest('.offer-close') || e.target.closest('.close-off-popup')) {
+              closeOfferModal();
+            }
+          });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const form = document.getElementById('newsletterForm');
+          const msg = document.getElementById('newsletterMsg');
+
+          if (form) {
+            form.addEventListener('submit', function (e) {
+              const submitBtn = document.getElementById('sub_pop_button');
+              const emailInput = document.querySelector('.newsletter-email-popup');
+              const email = emailInput.value.trim();
+
+              msg.innerHTML = '';
+              msg.style.color = 'red';
+
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+              if (email === '') {
+                e.preventDefault();
+                msg.innerHTML = 'Please enter your email';
+                return;
+              }
+
+              if (!emailRegex.test(email)) {
+                e.preventDefault();
+                msg.innerHTML = 'Invalid email';
+                return;
+              }
+
+              // allow submit
+              submitBtn.innerText = 'Please wait...';
+              submitBtn.disabled = true;
+            });
+          }
+
+          // ✅ after Shopify redirect → delay reload
+          if (window.location.search.includes('customer_posted=true')) {
+            msg.innerHTML = '✅ Thank you for subscribing!';
+            msg.style.color = 'green';
+            closeOfferModal();
+            setTimeout(() => {
+              // URL clean + reload
+              window.location.href = window.location.pathname;
+            }, 3000);
+          }
+        });
+      </script>
+    {% endif %}
+  </head>
+  {% render 'request-quote-modal' %}
+  <body
+    class="{{ request.page_type }}-template {{ template.suffix }} blocks-corner--{{ settings.blocks_corner_radius }}{% if request.design_mode %} shopify-design-mode{% endif %}"
+    data-initializing
+  >
+    <!-- Offer Modal -->
+    <div id="offerModal" class="offer-modal">
+      <div class="of-popup">
+        <a href="javascript:void(0)" class="offer-close">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21px" height="21px">
+            <path fill-rule="evenodd" fill="rgb(112, 112, 112)" d="M20.992,19.889 L19.591,21.005 L10.500,11.700 L1.409,21.005 L0.008,19.889 L9.254,10.425 L0.163,1.120 L1.565,0.003 L10.500,9.149 L19.435,0.003 L20.837,1.120 L11.746,10.425 L20.992,19.889 Z"></path>
+          </svg>
+        </a>
+        <div class="offerlog">
+          <a href="https://www.comstarproducts.com/" title="Comstar Logo" aria-label="store logo"
+            ><img
+              src="https://www.comstarproducts.com/media/logo/stores/1/logo_1.png"
+              title="Comstar Logo"
+              alt="Comstar Logo"
+          ></a>
+        </div>
+        <div class="off-overlay-body">
+          <p>Sign up here about exclusive offers, new products, and to receive a code for...</p>
+          <label class="off-big-text">10% OFF</label>
+          <span class="off-small-text">YOUR FIRST PURCHASE!</span>
+          <form action="#!" method="post" class="newsletter-form-modal">
+            <div class="field newsletter">
+              <div class="control">
+                <label for="popup-newsletter" aria-label="Popup newsletter label">
+                  <input
+                    type="email"
+                    name="newsletter_email"
+                    placeholder="Enter your email"
+                    class="newsletter-email-popup"
+                  >
+                </label>
+              </div>
+            </div>
+
+            <div class="actions btn-box-off">
+              <button type="submit" class="action subscribe primary" id="sub_pop_button">Sign Me Up!</button>
+              <a href="javascript:void(0)" class="close-off-popup">No thanks</a>
+            </div>
+
+            <p class="newsletterMsg"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+{% comment %} Product confirmation modal {% endcomment %}
+ <div id="hazmatModal" class="hazmat-modal">
+  <div class="hazmat-modal-content">
+    <span class="hazmat-close">&times;</span>
+
+    <h2>Dear Customer,</h2>
+
+    <h3>We appreciate your interest in ComStar's effective and innovative products.</h3>
+
+    <p class="highlight-text">
+      Please note that the item you have placed in your cart is considered a hazardous product and cannot be returned unless the receiver has a hazmat shipping license. Most hazardous materials may not be returned by mail.
+    </p>
+    <p>Please confirm before adding to cart</p>
+    <button id="confirmHazmat">Confirm</button>
+
+  </div>
+</div>
+
+{% comment %} end {% endcomment %}
+
+{% comment %} Intrest Modal {% endcomment %}
+ <div id="refrigerantModal" class="refrig-modal">
+  <div class="refrig-modal-content">
+
+    <span class="refrig-close">&times;</span>
+
+    <div class="refrig-text">
+
+      <h2>Dear Valued Customer,</h2>
+      <p>
+        We appreciate your interest in our innovative products. As of January 1, 2018, 
+        The U.S. Environmental Protection Agency (EPA) requires buyers of 
+        <em>regulated refrigerants</em> containing CFCs, HFCs or HFOs to be certified 
+        technicians or registered wholesalers.
+      </p>
+
+      <h4>For TECHNICIAN</h4>
+      <ol>
+        <li>Please complete a short form online and</li>
+        <li>Upload your license (Section 608 Technician Certification).</li>
+      </ol>
+
+      <h4>For WHOLESALER</h4>
+      <ol>
+        <li>Please fill out an online application,</li>
+        <li>Upload your company's tax-exempt form,</li>
+        <li>Provide Section 608 certified technician's license of an employee, associated contractor, or proof of authorization to accept and store refrigerants.</li>
+      </ol>
+
+      <p>
+        You will be notified via email once approved (usually within two business days) 
+        that you may purchase refrigerants.
+      </p>
+
+      <h5>Thank you!</h5>
+
+    </div>
+
+    <div class="refrig-bottom">
+
+  <h3>Comstar International Inc.</h3>
+
+  {% if customer %}
+
+    {% if customer.tags contains 'licensed_technician' and cert_status == 'Disabled' %}
+
+      <div class="no-order message message-notice notice">
+        <div>
+          You have already submitted your Technician Certification Request. Your request is currently under review.
+        </div>
+      </div>
+
+    {% elsif customer.tags contains 'wholesale' and cert_status == 'Disabled' %}
+
+      <div class="no-order message message-notice notice">
+        <div>
+          You have already submitted your Wholesale Tax Form Request. Your request is currently under review.
+        </div>
+      </div>
+
+
+    {% else %}
+
+     <div class="no-order message message-notice notice">
+    <div>
+      This refrigerant product requires a verified technician certification before it can be purchased.
+Submit your certification using the link below, and once approved, you'll be ready to place your order.
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <a href="/account" class="primary-btn">
+      Upgrade My Account
+    </a>
+
+    
+  </div>
+
+    {% endif %}
+
+  {% else %}
+
+    <p class="small-text">Refrigerant Purchase Certification Form</p>
+
+    <a href="/account/login" class="login-link">Log In</a>
+
+    <div class="btn-group">
+      <a href="/pages/refrigerant-technician-registeration" class="primary-btn">
+        REGISTER AS A LICENSED TECHNICIAN
+      </a>
+
+      <a href="/pages/become-a-wholesaler" class="primary-btn">
+        REGISTER AS A WHOLESALER
+      </a>
+    </div>
+
+  {% endif %}
+
+</div>
+
+  </div>
+</div>
+{% comment %} end {% endcomment %}
+
+
+    {% comment %} Custom metafield for body tag like GTag tracking {% endcomment %}
+    {{ shop.metafields.foxtheme.code_body.value }}
+    {% comment %} End custom metafield for body tab like GTag tracking {% endcomment %}
+
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+
+    {%- liquid
+      if settings.enable_page_transition
+        render 'page-transition'
+      endif
+    -%}
+
+    <div class="site-wrapper min-height-screen">
+      {% sections 'header-group' %}
+
+      <main id="MainContent" class="main-content content-for-layout focus-none" role="main" tabindex="-1">
+        {{ content_for_layout }}
+      </main>
+
+      {% sections 'footer-group' %}
+    </div>
+
+    {% sections 'overlay-group' %}
+    {%- liquid
+      if template.name == 'product'
+        section 'sticky-atc-bar'
+      endif
+      if settings.enable_back_to_top
+        render 'back-to-top'
+      endif
+    -%}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+    </ul>
+
+    {% if settings.pcard_show_quickview_button or settings.pcard_choose_options_actions == 'open_popup' %}
+      <script src="{{ 'quick-view.js' | asset_url }}" defer="defer"></script>
+    {% endif %}
+    <!-- ===== Google Translate Init ===== -->
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            autoDisplay: false,
+          },
+          'google_translate_element'
+        );
+      }
+    </script>
+
+    <!-- ===== Load Google Translate Script ===== -->
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- ===== Connect Dropdown to Google Translate ===== -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const picker = document.getElementById('language-picker');
+
+        picker.addEventListener('change', function () {
+          const lang = this.value;
+          if (!lang) return;
+
+          const waitForGoogle = setInterval(function () {
+            const googleSelect = document.querySelector('select.goog-te-combo');
+            if (googleSelect) {
+              googleSelect.value = lang;
+              googleSelect.dispatchEvent(new Event('change'));
+              clearInterval(waitForGoogle);
+            }
+          }, 100);
+        });
+      });
+    </script>
+
+    <script>
+   document.addEventListener('DOMContentLoaded', function () {
+
+  const newsletterForms = document.querySelectorAll('.newsletter-form-modal');
+  if (!newsletterForms.length) return;
+
+  newsletterForms.forEach(function (newsletter_form) {
+
+    const emailInput = newsletter_form.querySelector('[name="newsletter_email"]');
+    const messageBox = newsletter_form.querySelector('.newsletterMsg');
+    const submitBtn = newsletter_form.querySelector('button[type="submit"]');
+
+    newsletter_form.addEventListener('submit', function (e) {
+
+      e.preventDefault();
+
+      // Clear old messages
+      newsletter_form.querySelectorAll('.error, .success').forEach(el => el.remove());
+      if (messageBox) messageBox.textContent = '';
+
+      let valid = true;
+      const emailValue = emailInput.value.trim();
+      const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (emailValue === '') {
+        showMessage('This is a required field', 'error');
+        valid = false;
+      } else if (!email_regex.test(emailValue)) {
+        showMessage('Please enter a valid email address', 'error');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      const formData = new FormData(newsletter_form);
+
+      submitBtn.innerText = 'Please wait...';
+      submitBtn.disabled = true;
+
+      fetch('https://allinone.shopifydevelopmentcompany.com/api/submit-newsletter-form', {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' }
+      })
+        .then(res => res.json())
+        .then(res => {
+          if (res.success) {
+            showMessage(res.message, 'success');
+            newsletter_form.reset();
+          } else {
+            showMessage(res.message, 'error');
+          }
+        })
+        .catch(() => {
+          showMessage('Something went wrong', 'error');
+        })
+        .finally(() => {
+          submitBtn.innerText = 'Sign Me Up!';
+          submitBtn.disabled = false;
+        });
+
+      function showMessage(msg, type) {
+        if (!messageBox) return;
+        messageBox.textContent = msg;
+        messageBox.style.color = type === 'success' ? 'green' : 'red';
+      }
+
+    });
+
+  });
+  
+
+});
+
+    </script>
+     <div class="loader-holder" style="display:none;">
+                      <span class="loader-98"> </span>
+                    </div>
+  </body>
+</html>

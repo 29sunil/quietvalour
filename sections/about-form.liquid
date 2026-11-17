@@ -1,0 +1,189 @@
+<section class="about-form-section">
+  <div class="page-width">
+    <div class="about-form-grid">
+
+      <!-- LEFT CONTENT (ADMIN CONTROLLED) -->
+      <div class="about-form-left">
+        {% if section.settings.heading != blank %}
+          <h2>{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <p class="intro">{{ section.settings.description }}</p>
+        {% endif %}
+
+        {% if section.settings.hq_title != blank %}
+          <div class="address-block">
+            <h4>{{ section.settings.hq_title }}</h4>
+            <div>{{ section.settings.hq_address }}</div>
+          </div>
+        {% endif %}
+
+        {% if section.settings.manufacturing != blank %}
+          <p>
+            <strong>{{ section.settings.manufacturing_title }}</strong><br>
+            {{ section.settings.manufacturing }}
+          </p>
+        {% endif %}
+
+        {% if section.settings.partners != blank %}
+          <p>
+            <strong>{{ section.settings.partners_title }}</strong><br>
+            {{ section.settings.partners }}
+          </p>
+        {% endif %}
+      </div>
+
+      <!-- RIGHT FORM -->
+      <div class="about-form-right">
+
+        {% if section.settings.form_heading != blank %}
+            <h3 class="form-heading">
+            {{ section.settings.form_heading }}
+            </h3>
+            {% endif %}
+
+{% comment %} 
+        {% form 'contact' %}
+          <div class="form-group">
+            <label>Name <span>*</span></label>
+            <input type="text" name="contact[name]" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email <span>*</span></label>
+            <input type="email" name="contact[email]" required>
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" name="contact[phone]">
+          </div>
+
+          <div class="form-group">
+            <label>Message <span>*</span></label>
+            <textarea name="contact[body]" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">
+            {{ section.settings.button_text }}
+          </button>
+        {% endform %} {% endcomment %}
+
+        {% form 'contact' %}
+
+            {% if form.posted_successfully? %}
+    <p class="form-success">
+      <svg aria-hidden="true" focusable="false" class="icon icon-success icon--medium">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.7803 5.96967C16.0732 6.26256 16.0732 6.73744 15.7803 7.03033L9.28033 13.5303C8.98744 13.8232 8.51256 13.8232 8.21967 13.5303L4.96967 10.2803C4.67678 9.98744 4.67678 9.51256 4.96967 9.21967C5.26256 8.92678 5.73744 8.92678 6.03033 9.21967L8.75 11.9393L14.7197 5.96967C15.0126 5.67678 15.4874 5.67678 15.7803 5.96967Z" fill="#0C5132"></path>
+</svg>
+      Thank you! Your application has been submitted successfully.
+      
+    </p>
+    
+  {% endif %}
+
+  <input type="hidden" name="contact[subject]" value="Work With Us Enquiry">
+
+  <div class="form-group">
+    <label>Name <span>*</span></label>
+    <input type="text" name="contact[name]" required>
+  </div>
+
+  <div class="form-group">
+    <label>Email <span>*</span></label>
+    <input type="email" name="contact[email]" required>
+  </div>
+
+  <div class="form-group">
+    <label>Phone Number</label>
+    <input type="tel" name="contact[phone]">
+  </div>
+
+  <div class="form-group">
+    <label>Message <span>*</span></label>
+    <textarea name="contact[body]" required></textarea>
+  </div>
+
+  <button type="submit" class="btn-submit">
+    {{ section.settings.button_text }}
+  </button>
+
+{% endform %}
+
+
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Form (Dynamic)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Interested in Working With Us?"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Short Description"
+    },
+    {
+      "type": "text",
+      "id": "hq_title",
+      "label": "Headquarters Title",
+      "default": "Our Headquarters:"
+    },
+    {
+      "type": "richtext",
+      "id": "hq_address",
+      "label": "Headquarters Address"
+    },
+    {
+      "type": "text",
+      "id": "manufacturing_title",
+      "label": "Manufacturing Title",
+      "default": "Manufacturing and distribution:"
+    },
+    {
+      "type": "textarea",
+      "id": "manufacturing",
+      "label": "Manufacturing Locations"
+    },
+    {
+      "type": "text",
+      "id": "partners_title",
+      "label": "Partners Title",
+      "default": "Global Affiliates & Partners:"
+    },
+    {
+      "type": "textarea",
+      "id": "partners",
+      "label": "Partners Countries"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Send Message"
+    },
+    {
+        "type": "text",
+        "id": "form_heading",
+        "label": "Form Heading",
+        "default": "Get in Touch"
+        }
+  ],
+  "presets": [
+    {
+      "name": "About Form"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,47 @@
+<div class="orders-returns-page page-width">
+  <h1>Orders And Returns</h1>
+  <div class="order-form-box">
+    <h3>Order Information</h3>
+    <form id="orderLookupForm">
+      <div class="field">
+        <label>Order ID <span>*</span></label>
+        <input type="text" name="order_id" required>
+      </div>
+
+      <div class="field">
+        <label>Billing Last Name <span>*</span></label>
+        <input type="text" name="billing_last_name" required>
+      </div>
+
+      <div class="field">
+        <label>Find Order By <span>*</span></label>
+        <select name="find_order_by">
+          <option value="email">Email</option>
+          <option value="email">Zip Code</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Email <span>*</span></label>
+        <input type="email" name="email" required>
+      </div>
+
+      <button type="submit" class="btn btn--primary w-full">
+        Continue
+      </button>
+    </form>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Orders Returns",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Orders Returns"
+    }
+  ]
+}
+{% endschema %}

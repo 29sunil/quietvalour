@@ -1,0 +1,714 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+<script src="{{ 'footer.js' | asset_url }}" defer="defer"></script>
+{%- liquid
+  assign socials = 'facebook,instagram,youtube,tiktok,twitter,pinterest,snapchat,tumblr,vimeo'
+  assign socials_arr = socials | split: ','
+  assign has_social_icons = false
+  for social in socials_arr
+    assign setting_key = 'social_' | append: social | append: '_link'
+    if settings[setting_key] != blank
+      assign has_social_icons = true
+      break
+    endif
+  endfor
+  assign motion_delay = 50
+-%}
+
+
+
+<!-- Footer -->
+<footer>
+
+    <div class="footerBtm">
+        <div class="container">
+            <img src=https://cdn.shopify.com/s/files/1/0725/5041/6561/files/logo.png?v=1767431582" alt="img">
+            <p>ComStar International Inc. creates and manufactures the most comprehensive product line of
+                environmentally safe, industrial strength chemical products in the world for the trade professional.
+                Unlike our competitors who may specialize in just one product line, ComStar has been a leader in
+                developing, manufacturing and marketing over 300 specialty products designed specifically for the trade
+                professional for over 54 years. <a href="/pages/about-us">Read more</a></p>
+        </div>
+    </div>
+    <div class="footerVistion">
+        <div class="container">
+            <ul>
+                <li>Visit: <a href="https://www.comstarpurelye.com" target="_blank">www.comstarpurelye.com </a></li>
+                <li>Visit: <a href="https://www.replacementforr22.com" target="_blank">www.replacementforr22.com</a></li>
+                <li>Visit: <a href="https://www.lowgwpref.com/" target="_blank" rel="noopener">www.lowgwpref.com</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footerNavBx">
+        <div class="container">
+            <div class="footerNav">
+                <h2>CUSTOMER SERVICE</h2>
+                <ul class="infoLink">
+                    <li><a title="My Account" href="/account/register">My Account</a></li>
+                    <li><a title="Order Status" href="/pages/orders-returns">Order Status</a></li>
+                    <li><a title="Shipping and Returns" href="/pages/shipping-policy">Shipping and Returns Policy</a></li>
+                    <li><a title="Become a Wholesaler" href="/pages/become-a-wholesaler">Become a Wholesaler</a></li>
+                    <li><a title="Custom Products" href="/pages/custom-products">Custom Products</a></li>
+                    <li><a title="Catalog" href="/pages/download-catalog">Catalog</a></li>
+                </ul>
+            </div>
+
+            <div class="footerNav">
+                <h2>INFORMATION</h2>
+                <ul class="infoLink">
+                    <li><a title="About Us" href="/pages/about-us">About Us</a></li>
+                    <li><a title="Site Map" href="/pages/site-map">Site Map</a></li>
+                    <li><a title="Contact Us" href="/pages/contact">Contact Us</a></li>
+                    <li><a title="ComStar® Strategic " href="/pages/strategic-partners">ComStar® Strategic Partners</a></li>
+                    <li><a title="Sales Representatives" href="/pages/sales-representatives">Sales Representatives</a></li>
+                    <li><a title="Where to Find ComStar" href="/pages/store-locator">Where to Find ComStar Products</a></li>
+                    <li><a href="/blogs/news">News &amp; Events</a></li>
+                    <li><a title="ComStar Accessibility Policy" target="_blank" href="https://cdn.shopify.com/s/files/1/0725/5041/6561/files/ComStar_Accessibility_Policy_V3.pdf?v=1767942612">ComStar Accessibility Policy</a></li>
+                    <li><a title="Terms and Conditions" href="/pages/terms-and-conditions">Terms and Conditions</a></li>
+                    <li><a title="Privacy Policy" href="/pages/privacy-policy">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+
+            <div class="footerNav">
+                <h2>OUR LOCATIONS</h2>
+                <ul>
+                    <li><em class="fas fa-map-marker-alt">&nbsp;</em>
+                        <p><a href="https://www.google.com/maps/dir//Comstar+International+Inc/@40.78037,-73.840123,17z?hl=en-US"
+                                target="_blank" rel="noopener"><strong>ComStar International Inc.</strong><br>20-47
+                                128th Street<br>College Point, NY 11356<span class="sr-only"> - This link opens in a new
+                                    page</span></a></p>
+                    </li>
+                    <li><em class="fas">&nbsp;</em>
+                        <p><a title="Truck Drivers Instructions" href="/pages/truck-routes"><strong>Truck Drivers
+                                    Instructions</strong></a></p>
+                    </li>
+                    <li><em class="fas fa-map-marker-alt">&nbsp;</em>
+                        <p><a href="https://www.google.com/maps/place/Fluorofusion+Specialty+Chemicals,+Inc./@35.6152017,-78.4191739,17z/data=!4m15!1m8!3m7!1s0x89ac6ecd3e98ef3f:0xc5777df410f94f57!2s3950+Powhatan+Rd,+Clayton,+NC+27520,+Stany+Zjednoczone!3b1!8m2!3d35.6152017!4d-78.416599!16s%2Fg%2F11snnkf5z1!3m5!1s0x89ac6ecd3e98ef3f:0xab508d2de20c969!8m2!3d35.6152017!4d-78.416599!16s%2Fg%2F11fll6srsq"
+                                target="_blank" rel="noopener"><strong>FlouroFusion Specialty Chemical
+                                    Inc.</strong><br>3950 Powhatan Rd<br>Clayton, NC 27528<span class="sr-only"> - This
+                                    link opens in a new page</span></a></p>
+                    </li>
+
+                    <li><em class="fas fa-map-marker-alt">&nbsp;</em>
+                        <p><a href="https://www.google.com/maps?q=summit+refrigerants+8541+east+north+belt+dr+humble,+tx+77396&amp;um=1&amp;ie=UTF-8&amp;sa=X&amp;ved=2ahUKEwirwvOR-9HyAhUxUt8KHTYbCsIQ_AUoAXoECAEQAw"
+                                target="_blank" rel="noopener"><strong>Summit Refrigerants</strong><br>8541 East North
+                                Belt Dr<br>Humble TX 77396<span class="sr-only"> - This link opens in a new
+                                    page</span></a></p>
+                    </li>
+                    <li><em class="fas fa-map-marker-alt">&nbsp;</em>
+                        <p><a href="https://goo.gl/maps/wkbR9c8LgDHDg1kb8" target="_blank"
+                                rel="noopener"><strong>Dunavant Distribution Group LLC.</strong><br>9431 Bay Area
+                                Blvd<br>Pasadena, TX 77507<span class="sr-only"> - This link opens in a new
+                                    page</span></a></p>
+                    </li>
+                    <li><em class="fas">&nbsp;</em>
+                        <p><a title="International Locations" href="/pages/sales-representatives"><strong>International
+                                    Locations</strong></a></p>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="footerNav">
+                <div class="box ">
+                <div class="title"><strong>GET IN TOUCH</strong></div>
+                <ul>
+                    <li>US: <a href="tel:+18003280142">1-800-328-0142</a></li>
+                    <li>O/S: <a href="tel:+17184454900">1-718-445-4900</a></li>
+                    <li>Fax: <a href="fax:+17183535998">718-353-5998</a></li>
+                    <li>Email: <a href="mailto:customerservice@comstarproducts.com">customerservice@comstarproducts.com</a></li>
+                    </ul>
+                    <ul class="icons">
+                    <li><a href="https://www.facebook.com/ComStar-International-Inc-467418847110369" target="_blank" rel="noopener"><img src="https://www.comstarproducts.com/media/footer/facebook.png" alt="" width="29" height="29"><span class="sr-only"></span></a></li>
+                    <li><a href="https://www.instagram.com/comstarproducts/" target="_blank" rel="noopener"><img src="https://www.comstarproducts.com/media/footer/instagram-logo.png" alt="" width="29" height="29"><span class="sr-only"></span></a></li>
+                    <li><a href="https://twitter.com/comstarproducts" target="_blank" rel="noopener"><img src="https://www.comstarproducts.com/media/footer/twitter.png" alt="" width="29" height="29"><span class="sr-only"></span></a></li>
+                    <li><a href="https://www.youtube.com/channel/UCblQgWJDISuLsBQG-jVxIxQ?view_as=subscriber" target="_blank" rel="noopener"><img src="https://www.comstarproducts.com/media/footer/youtube.png" alt="" width="29" height="29"><span class="sr-only"></span></a></li>
+                </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footerLast">
+        <div class="container">
+            <div class="subscriberBx">
+                 <div class="footer-newsletter__form">
+                          <div class="footer-newsletter__form">
+  <div class="newsletter-form newsletter-form__design-1">
+    <form method="post" action="javascript:void(0)" class="contact-form newsletter-form-modal">
+      <div class="newsletter-form__field-wrapper">
+        <div class="form-field relative">
+     
+          <input  type="email" name="newsletter_email"
+            class="form-control" value="" placeholder="Email"><button type="submit"
+            class="newsletter-form__button btn btn--icon btn--blank" 
+            aria-label="Subscribe">
+            <svg class="icon icon-arrow icon--medium" viewBox="0 0 20 20" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.5 3.74121L13.75 9.99121L7.5 16.2412" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+       <p class="newsletterMsg"></p>
+    </form>
+  </div>
+</div>
+                        </div>
+            </div>
+
+            <div class="copyright">© 2026 Comstar International. All Rights Reserved.</div>
+            <div class="visacards">
+                <ul>
+                    <li><img src="https://cdn.shopify.com/s/files/1/0725/5041/6561/files/visa-48.png?v=1767436675" alt=""></li>
+                    <li><img src="https://cdn.shopify.com/s/files/1/0725/5041/6561/files/mastercard-48.png?v=1767436675" alt=""></li>
+                    <li><img src="https://cdn.shopify.com/s/files/1/0725/5041/6561/files/discover-48.png?v=1767436675" alt=""></li>
+                    <li><img src="https://cdn.shopify.com/s/files/1/0725/5041/6561/files/american-express-48.png?v=1767436675" alt=""></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+  
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "t:sections.footer.blocks.link_list.name",
+      "settings": [
+        {
+          "type": "range",
+          "id": "block_width",
+          "label": "t:sections.footer.blocks.general.settings.block_width.label",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "default": 25
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Quick links",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:sections.all.text_size.heading.label",
+          "default": "h4",
+          "options": [
+            {
+              "value": "h6",
+              "label": "t:sections.all.text_size.options__h6.label"
+            },
+            {
+              "value": "h5",
+              "label": "t:sections.all.text_size.options__h5.label"
+            },
+            {
+              "value": "h4",
+              "label": "t:sections.all.text_size.options__h4.label"
+            },
+            {
+              "value": "h3",
+              "label": "t:sections.all.text_size.options__h3.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.text_size.options__h2.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.text_size.options__h1.label"
+            },
+            {
+              "value": "hd3",
+              "label": "t:sections.all.text_size.options__hd3.label"
+            },
+            {
+              "value": "hd2",
+              "label": "t:sections.all.text_size.options__hd2.label"
+            },
+            {
+              "value": "hd1",
+              "label": "t:sections.all.text_size.options__hd1.label"
+            }
+          ]
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "default": "footer",
+          "label": "t:sections.footer.blocks.link_list.settings.menu.label",
+          "info": "t:sections.footer.blocks.link_list.settings.menu.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.footer.blocks.general.mobile_settings_header"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_default",
+          "label": "t:sections.footer.blocks.general.settings.open_default.label",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_divider",
+          "default": false,
+          "label": "t:sections.all.divider.settings.show_divider.label"
+        }
+      ]
+    },
+    {
+      "type": "contact_information",
+      "limit": 1,
+      "name": "t:sections.footer.blocks.contact_information.name",
+      "settings": [
+        {
+          "type": "range",
+          "id": "block_width",
+          "label": "t:sections.footer.blocks.general.settings.block_width.label",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "default": 25
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "About",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:sections.all.text_size.heading.label",
+          "default": "h4",
+          "options": [
+            {
+              "value": "h6",
+              "label": "t:sections.all.text_size.options__h6.label"
+            },
+            {
+              "value": "h5",
+              "label": "t:sections.all.text_size.options__h5.label"
+            },
+            {
+              "value": "h4",
+              "label": "t:sections.all.text_size.options__h4.label"
+            },
+            {
+              "value": "h3",
+              "label": "t:sections.all.text_size.options__h3.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.text_size.options__h2.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.text_size.options__h1.label"
+            },
+            {
+              "value": "hd3",
+              "label": "t:sections.all.text_size.options__hd3.label"
+            },
+            {
+              "value": "hd2",
+              "label": "t:sections.all.text_size.options__hd2.label"
+            },
+            {
+              "value": "hd1",
+              "label": "t:sections.all.text_size.options__hd1.label"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "address",
+          "default": "382 NE 191st St # 87394 Miami",
+          "label": "t:sections.footer.blocks.contact_information.settings.address.label"
+        },
+        {
+          "type": "text",
+          "id": "working_hours",
+          "default": "9:00am - 6:00pm, Mon to Sun",
+          "label": "t:sections.footer.blocks.contact_information.settings.working_hours.label"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "default": "hi@yourdomain.com",
+          "label": "t:sections.footer.blocks.contact_information.settings.email.label"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "default": "+1-202-555-0195",
+          "label": "t:sections.footer.blocks.contact_information.settings.phone.label"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.footer.blocks.general.mobile_settings_header"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_default",
+          "label": "t:sections.footer.blocks.general.settings.open_default.label",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_divider",
+          "default": false,
+          "label": "t:sections.all.divider.settings.show_divider.label"
+        }
+      ]
+    },
+    {
+      "type": "image_text",
+      "name": "t:sections.footer.blocks.image_text.name",
+      "settings": [
+        {
+          "type": "range",
+          "id": "block_width",
+          "label": "t:sections.footer.blocks.general.settings.block_width.label",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "default": 25
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "About",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:sections.all.text_size.heading.label",
+          "default": "h4",
+          "options": [
+            {
+              "value": "h6",
+              "label": "t:sections.all.text_size.options__h6.label"
+            },
+            {
+              "value": "h5",
+              "label": "t:sections.all.text_size.options__h5.label"
+            },
+            {
+              "value": "h4",
+              "label": "t:sections.all.text_size.options__h4.label"
+            },
+            {
+              "value": "h3",
+              "label": "t:sections.all.text_size.options__h3.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.text_size.options__h2.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.text_size.options__h1.label"
+            },
+            {
+              "value": "hd3",
+              "label": "t:sections.all.text_size.options__hd3.label"
+            },
+            {
+              "value": "hd2",
+              "label": "t:sections.all.text_size.options__hd2.label"
+            },
+            {
+              "value": "hd1",
+              "label": "t:sections.all.text_size.options__hd1.label"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.all.image.label"
+        },
+        {
+          "type": "range",
+          "id": "image_width",
+          "min": 50,
+          "max": 250,
+          "step": 2,
+          "default": 150,
+          "unit": "px",
+          "label": "t:sections.footer.blocks.general.settings.image_width.label"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Share store details, promotions, or brand content with your customers.</p>",
+          "label": "t:sections.all.text.label"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "t:sections.all.button.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.button.button_link.label"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.footer.blocks.general.mobile_settings_header"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_default",
+          "label": "t:sections.footer.blocks.general.settings.open_default.label",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_divider",
+          "default": false,
+          "label": "t:sections.all.divider.settings.show_divider.label"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "limit": 1,
+      "name": "t:sections.footer.blocks.newsletter.name",
+      "settings": [
+        {
+          "type": "range",
+          "id": "block_width",
+          "label": "t:sections.footer.blocks.general.settings.block_width.label",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "default": 25
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Subscribe to our emails",
+          "label": "t:sections.all.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:sections.all.text_size.heading.label",
+          "default": "h2",
+          "options": [
+            {
+              "value": "h6",
+              "label": "t:sections.all.text_size.options__h6.label"
+            },
+            {
+              "value": "h5",
+              "label": "t:sections.all.text_size.options__h5.label"
+            },
+            {
+              "value": "h4",
+              "label": "t:sections.all.text_size.options__h4.label"
+            },
+            {
+              "value": "h3",
+              "label": "t:sections.all.text_size.options__h3.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.text_size.options__h2.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.text_size.options__h1.label"
+            },
+            {
+              "value": "hd3",
+              "label": "t:sections.all.text_size.options__hd3.label"
+            },
+            {
+              "value": "hd2",
+              "label": "t:sections.all.text_size.options__hd2.label"
+            },
+            {
+              "value": "hd1",
+              "label": "t:sections.all.text_size.options__hd1.label"
+            }
+          ]
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_description",
+          "default": "<p>Subscribe for store updates and discounts.</p>",
+          "label": "t:sections.all.description.label"
+        },
+        {
+          "type": "richtext",
+          "id": "newsletter_term",
+          "label": "t:sections.footer.blocks.newsletter.settings.newsletter_term.label",
+          "default": "<p>By subscribing you agree to the <a href='#'>Terms of Use</a> & <a href='#'>Privacy Policy.</a></p>"
+        },
+        {
+          "type": "select",
+          "id": "newsletter_text_alignment",
+          "label": "t:sections.all.text_alignment.label",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.all.text_alignment.options__1.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.all.text_alignment.options__2.label"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "form_width",
+          "label": "t:sections.footer.blocks.newsletter.settings.form_width.label",
+          "min": 450,
+          "max": 800,
+          "step": 5,
+          "default": 500
+        },
+        {
+          "type": "header",
+          "content": "t:sections.footer.blocks.general.mobile_settings_header"
+        },
+        {
+          "type": "checkbox",
+          "id": "order_first",
+          "label": "t:sections.footer.blocks.newsletter.settings.order_first.label",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "[Read How-to](https://foxecom.link/0ordp-)"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__9.content",
+      "info": "t:sections.footer.settings.header__9.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_follow_on_shop",
+      "default": true,
+      "label": "t:sections.footer.settings.enable_follow_on_shop.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__2.content",
+      "info": "t:sections.footer.settings.header__2.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "default": true,
+      "label": "t:sections.footer.settings.show_social.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__3.content",
+      "info": "t:sections.footer.settings.header__4.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "default": true,
+      "label": "t:sections.footer.settings.enable_country_selector.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__5.content",
+      "info": "t:sections.footer.settings.header__6.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "default": true,
+      "label": "t:sections.footer.settings.enable_language_selector.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__7.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_enable",
+      "default": true,
+      "label": "t:sections.footer.settings.payment_enable.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__10.content"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_bottom_menu",
+      "label": "t:sections.footer.settings.footer_bottom_menu.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.divider.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_divider",
+      "default": true,
+      "label": "t:sections.all.divider.settings.show_divider.label"
+    },
+    {
+      "type": "select",
+      "id": "divider_width",
+      "options": [
+        {
+          "value": "fixed",
+          "label": "t:sections.all.container.options__fixed.label"
+        },
+        {
+          "value": "full",
+          "label": "t:sections.all.container.options__full.label"
+        }
+      ],
+      "default": "full",
+      "label": "t:sections.all.divider.settings.divider_width.label",
+      "visible_if": "{{ section.settings.show_section_divider == true }}"
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "menu"
+      }
+    ]
+  },
+  "enabled_on": {
+    "groups": ["footer"]
+  }
+}
+{% endschema %}

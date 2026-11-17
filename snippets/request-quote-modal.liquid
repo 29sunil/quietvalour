@@ -1,0 +1,890 @@
+{% assign customerEmail = customer.email %}
+<div id="requestModal" class="request-modal">
+  <div class="modal-overlay">&nbsp;</div>
+
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <div class="requestModal">
+      <div class="requestModalCnt">
+        <h2>REQUEST A QUOTE</h2>
+        <h3>Thank you for your request!</h3>
+        <p>
+          Please describe each product you wish to purchase to receive the best price and information within one
+          business day. For wholesalers, please call or email us with your tax-exempt certificate. Upon completion, we
+          will contact you via email.
+        </p>
+        <p>
+          Too much? Try calling us at: <br>
+          <a href="tel:1.800.328.0142"></a> 1.800.328.0142 or email us your order at: <br>
+          <a href="mailto:orders@comstarproducts.com"></a> orders@comstarproducts.com.
+        </p>
+        <p>Thank you again for your patience and business.</p>
+        <p>From, the ComStar Family</p>
+        <div class="comstarLogo">
+          <img src="https://cdn.shopify.com/s/files/1/0725/5041/6561/files/comstart.png?v=1769152840" alt="img">
+        </div>
+        <div class="bearimg">
+          <img src="https://cdn.shopify.com/s/files/1/0725/5041/6561/files/ruffus.png?v=1769160226" alt="img">
+        </div>
+      </div>
+
+      <div class="requestModalForm">
+        <form action="javascript:void(0)" id="cs-request-quote-form" class="request-quote-form" method="post">
+          <div class="quoteDescription">
+            <h2>Quote Description</h2>
+            <p>
+              Please provide a detailed list of products you would like to receive a quote for, including product names,
+              quantities, and sizes.
+            </p>
+
+            <textarea
+              
+              name="quote_description"
+              placeholder="Ex: 3 air freshener spray canisters, 3 1-gallon lye drain cleaner for septic tanks, 6 1 gallon containers of acid based descaler."
+            ></textarea>
+
+
+<input
+  type="hidden"
+  name="product_data"
+  id="variantData"
+>
+
+            {% comment %} <div class="field field-full">
+              <input
+                type="text"
+                name="product_name"
+                id="productSearch"
+                placeholder="Search product..."
+                class="form-control required"
+              >
+              <div id="productResults" style="display:none;"></div>
+            </div>
+
+            <div class="field field-full">
+              <input type="hidden" name="product_data" id="variantData">
+              <button type="button" id="addRow">Add Product</button>
+              <button type="button" id="clearData">Clear</button>
+            </div> {% endcomment %}
+          </div>
+
+          <div class="contactInfo">
+            <h2>Contact Information</h2>
+            <div class="field">
+              <div class="input-field-wrapper">
+                <input class="required" name="quote_first_name" type="text" placeholder="First Name">
+              </div>
+              <div class="input-field-wrapper">
+                <input class="required" name="quote_last_name" type="text" placeholder="Last Name">
+              </div>
+            </div>
+
+            <div class="field field-full">
+              {% comment %} <input class="required" name="quote_email" if(customerEmail) disabled type="email" value={{ customerEmail }} placeholder="Email"> {% endcomment %}
+              <input
+                class="required"
+                name="quote_email"
+                type="email"
+                value="{{ customerEmail }}"
+                placeholder="Email"
+                {% if customerEmail != blank %}
+                  readonly
+                {% endif %}
+              >
+            </div>
+
+            <div class="field field-full">
+              <input class="required" name="quote_street_address" type="text" placeholder="Street Address">
+            </div>
+
+            <div class="field">
+              <div class="input-field-wrapper">
+                <input class="required" name="quote_zipcode" type="text" placeholder="Zip/Postal Code">
+              </div>
+              <div class="input-field-wrapper">
+                <select name="quote_country" class="form-control required">
+                  <option value="">Select country</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="input-field-wrapper">
+                <input class="required" name="quote_city" type="text" placeholder="City">
+              </div>
+              <div class="input-field-wrapper">
+                <select name="quote_country_states" class="form-control">
+                  <option value="">Select state</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <input class="required" name="quote_phone_number" type="text" placeholder="Phone Number">
+            </div>
+
+            <div class="billingaddress">
+              <label>
+                <input class="required" name="quote_use_billing_address" type="checkbox"> Use Billing Address as
+                Shipping Address
+              </label>
+            </div>
+            <h2>Shipping Address</h2>
+            <div class="field">
+              <div class="input-field-wrapper">
+                <input
+                  class="required shipping_input"
+                  name="quote_shipping_first_name"
+                  type="text"
+                  placeholder="First Name"
+                >
+              </div>
+              <div class="input-field-wrapper">
+                <input
+                  class="required shipping_input"
+                  name="quote_shipping_last_name"
+                  type="text"
+                  placeholder="Last Name"
+                >
+              </div>
+            </div>
+
+            <div class="field field-full">
+              <input class="required shipping_input" name="quote_shipping_email" type="email" placeholder="Email">
+            </div>
+
+            <div class="field field-full">
+              <input
+                class="required shipping_input"
+                name="quote_shipping_street_address"
+                type="text"
+                placeholder="Street Address"
+              >
+            </div>
+
+            <div class="field">
+              <div class="input-field-wrapper">
+                <input
+                  class="required shipping_input"
+                  name="quote_shipping_zipcode"
+                  type="text"
+                  placeholder="Zip/Postal Code"
+                >
+              </div>
+              <div class="input-field-wrapper">
+                <select name="quote_shipping_country" class="form-control required shipping_input">
+                  <option value="">Select country</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="input-field-wrapper">
+                <input class="required shipping_input" name="quote_shipping_city" type="text" placeholder="City">
+              </div>
+              <div class="input-field-wrapper">
+                <select name="quote_shipping_states" class="form-control shipping_input">
+                  <option value="">Select state</option>
+                </select>
+              </div>
+            </div>
+
+            {% comment %}
+              <div class="capcha-div" style="padding: 15px 0px;">
+                <div class="g-recaptcha" data-sitekey="6LcZ41IsAAAAAHZrAZ9rzYTV48rFtvoPOeqjEvpm"></div>
+              </div>
+            {% endcomment %}
+          </div>
+          <div class="field">
+            <button type="submit" class="submitbtn">Submit</button>
+            <span class="quote-success" style="color: green;display:none;"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer="defer"></script>
+
+<script>
+  {% comment %} document.addEventListener('DOMContentLoaded', function () {
+
+
+    let debounceTimer;
+
+    document.getElementById('productSearch').addEventListener('keyup', function () {
+      clearTimeout(debounceTimer);
+
+      let query = this.value.trim();
+
+      if (query.length < 2) {
+        document.getElementById('productResults').innerHTML = '';
+        return;
+      }
+
+      debounceTimer = setTimeout(() => {
+        fetchProducts(query);
+      }, 400);
+    });
+
+    function fetchProducts(query) {
+      let btn = document.getElementById('addRow');
+      let clearBtn = document.getElementById('clearData');
+
+      // 1️⃣ Disable button aur text change
+      btn.disabled = true;
+      btn.textContent = "Please wait...";
+      clearBtn.disabled = true;
+
+      // 2️⃣ Fetch call
+      fetch('https://allinone.shopifydevelopmentcompany.com/api/search-products?q=' + encodeURIComponent(query))
+        .then(res => res.json())
+        .then(data => {
+          // 3️⃣ Render products
+          renderProducts(data);
+        })
+        .catch(err => {
+          console.error("Error fetching products:", err);
+        })
+        .finally(() => {
+          // 4️⃣ Response aa jaye, button enable aur text wapas
+          btn.disabled = false;
+          btn.textContent = "Add Row"; // original text
+          clearBtn.disabled = false;
+
+        });
+    }
+
+    function renderProducts(products) {
+      let container = document.getElementById('productResults');
+      container.innerHTML = '';
+
+      products.forEach(product => {
+
+        product.variants.forEach(variant => {
+
+          let html = `
+                <div class="product-variant-detail">
+                    <label>
+                      
+                        ${product.title} - ${variant.title}
+                    </label>
+
+                    <input type="number" min="0" value="0" 
+                           class="variant-qty" 
+                           data-id="${variant.id}">
+                </div>
+            `;
+
+
+          container.innerHTML += html;
+            container.style="display:flex";
+
+        });
+
+      });
+
+    }
+
+   
+
+
+    document.getElementById("addRow").addEventListener("click", function () {
+
+            let textarea = document.querySelector('textarea[name="quote_description"]');
+            let product_data = document.querySelector('input[name="product_data"]');
+            let productInput = document.querySelector('input[name="product_name"]');
+            let container = document.getElementById('productResults');
+
+            let errorSpan = productInput.nextElementSibling;
+            let allProducts = document.querySelectorAll('.product-variant-detail');
+
+            // ✅ existing data
+            let existingHidden = product_data.value ? JSON.parse(product_data.value) : [];
+
+            // 👉 convert to map (id => object)
+            let productMap = {};
+
+            existingHidden.forEach(item => {
+              productMap[item.id] = { ...item };
+            });
+
+            // ✅ loop new products
+            allProducts.forEach(function (item) {
+
+              let label = item.querySelector('label').innerText.trim();
+              let qtyInput = item.querySelector('.variant-qty');
+              let quantity = parseInt(qtyInput.value);
+              let id = qtyInput.getAttribute('data-id');
+
+              if (quantity && quantity > 0) {
+
+                if (productMap[id]) {
+                  // ✅ already exists → update quantity
+                  productMap[id].quantity += quantity;
+                } else {
+                  // ✅ new entry
+                  productMap[id] = {
+                    label: label,
+                    id: id,
+                    quantity: quantity
+                  };
+                }
+              }
+            });
+
+            // ✅ convert map back to array
+            let finalHidden = Object.values(productMap);
+
+            // ✅ update textarea
+            let finalDesc = finalHidden.map(item => item.quantity + " " + item.label);
+
+            textarea.value = finalDesc.join(", ");
+            product_data.value = JSON.stringify(finalHidden);
+
+            // ✅ reset UI
+            document.getElementById("productResults").innerHTML = "";
+            productInput.classList.remove('required', 'input-error');
+            container.style = "display:none";
+            productInput.value = '';
+
+            if (errorSpan && errorSpan.classList.contains('error')) {
+              errorSpan.remove();
+            }
+          });
+
+    document.getElementById("clearData").addEventListener("click", function () {
+
+      let textarea = document.querySelector('textarea[name="quote_description"]');
+      let product_data = document.querySelector('input[name="product_data"]');
+      let productInput = document.querySelector('input[name="product_name"]');
+
+      if (!textarea || !product_data) {
+
+        return;
+      }
+
+      textarea.value = '';
+      product_data.value = '';
+      productInput.value = '';
+      document.getElementById("productResults").innerHTML = "";
+
+      productInput.classList.add('required');
+
+    });
+
+    const checkbox = document.querySelector('input[name="quote_use_billing_address"]');
+    const shippingInputs = document.querySelectorAll('.shipping_input');
+
+    function toggleShippingInputs() {
+      console.log('aff');
+      shippingInputs.forEach(function (input) {
+        input.disabled = checkbox.checked;
+
+        if (checkbox.checked) {
+          if (input.tagName === "SELECT") {
+            input.selectedIndex = 0; // 0 index select
+          } else {
+            input.value = ""; // input ko empty
+          }
+        }
+      });
+    }
+
+    // initial state (page load par)
+    toggleShippingInputs();
+
+    // checkbox change hone par
+    checkbox.addEventListener('change', toggleShippingInputs);
+
+    {% comment %} const form = document.querySelector('.request-quote-form'); {% endcomment %}
+    const form = document.getElementById('cs-request-quote-form');
+    console.log('request-quote-form', form);
+
+    const BillingCountryEl = form.querySelector('select[name="quote_country"]');
+    const ShippingCountryEl = form.querySelector('select[name="quote_shipping_country"]');
+
+
+    const BillingStateEl = form.querySelector('select[name="quote_country_states"]');
+    const ShippingStateEl = form.querySelector('select[name="quote_shipping_states"]');
+
+
+    async function loadCountries(countryEl) {
+      const res = await fetch('https://countriesnow.space/api/v0.1/countries/positions');
+      const data = await res.json();
+      if (data.data) {
+        data.data.sort((a, b) => a.name.localeCompare(b.name));
+        data.data.forEach(c => {
+          countryEl.add(new Option(c.name, c.name));
+        });
+      }
+    }
+
+    async function loadStates(countryName, stateEl) {
+      stateEl.innerHTML = '<option>Loading...</option>';
+
+      const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country: countryName })
+      });
+      const data = await res.json();
+
+      stateEl.innerHTML = '<option value="">-- Select State --</option>';
+
+      if (data.data && data.data.states) {
+        data.data.states.sort((a, b) => a.name.localeCompare(b.name));
+        data.data.states.forEach(s => {
+          stateEl.add(new Option(s.name, s.name));
+        });
+      } else {
+        stateEl.innerHTML = '<option value="">No states found</option>';
+      }
+    }
+
+    BillingCountryEl.addEventListener('change', e => {
+      const country = e.target.value;
+      if (country) loadStates(country, BillingStateEl);
+      else stateEl.innerHTML = '<option value="">-- Select State --</option>';
+    });
+
+    ShippingCountryEl.addEventListener('change', e => {
+      const country = e.target.value;
+      if (country) loadStates(country, ShippingStateEl);
+      else stateEl.innerHTML = '<option value="">-- Select State --</option>';
+    });
+
+
+    loadCountries(BillingCountryEl);
+    loadCountries(ShippingCountryEl);
+
+
+    function isNumber(value) {
+      return value !== '' && !isNaN(value) && Number(value) > 0;
+    }
+
+
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      let valid = true;
+
+      const successMessageContainer = document.querySelector(".quote-success");
+
+
+      // remove old errors
+      form.querySelectorAll('.error').forEach(el => el.remove());
+      form.querySelectorAll('input').forEach(input => input.classList.remove('input-error'));
+
+
+      successMessageContainer.innerHTML = '';
+
+      // required fields
+      form.querySelectorAll('.required').forEach(function (input) {
+
+        if (input.disabled) {
+          return;
+        }
+
+
+        let value = '';
+
+        if (input.tagName === 'INPUT') {
+          value = input.value.trim();
+        }
+
+
+        if (input.tagName === 'TEXTAREA') {
+          value = input.value.trim();
+        }
+
+
+        if (input.tagName === 'SELECT') {
+          value = input.options[input.selectedIndex].value;
+        }
+
+
+        if (value === '' || value == undefined || value == '') {
+          input.classList.add('input-error');
+
+          const error = document.createElement('span');
+
+          error.className = 'error';
+          error.style.color = 'red';
+          if (input.name === 'product_name') {
+            error.textContent = 'Please select at least one product name';
+          }
+
+          else {
+            error.textContent = 'This is a required field';
+          }
+
+          input.insertAdjacentElement('afterend', error);
+          valid = false;
+        }
+      });
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      var email_element = form.querySelector('input[name="quote_email"]');
+      var quote_shipping_email_element = form.querySelector('input[name="quote_shipping_email"]');
+
+
+      var email = email_element ? email_element.value.trim() : '';
+      var quote_shipping_email_value = quote_shipping_email_element ? quote_shipping_email_element.value.trim() : '';
+
+      if (email != '' && !emailRegex.test(email)) {
+        email_element.classList.add('input-error');
+
+        const error = document.createElement('span');
+        error.className = 'error';
+        error.style.color = 'red';
+        error.textContent = 'Invalid email';
+
+        email_element.insertAdjacentElement('afterend', error);
+        valid = false;
+      }
+
+      if (quote_shipping_email_value != '' && !emailRegex.test(quote_shipping_email_value)) {
+        quote_shipping_email_element.classList.add('input-error');
+
+        const error = document.createElement('span');
+        error.className = 'error';
+        error.style.color = 'red';
+        error.textContent = 'Invalid email';
+
+        quote_shipping_email_element.insertAdjacentElement('afterend', error);
+        valid = false;
+      }
+
+      var quote_zipcode_element = form.querySelector('input[name="quote_zipcode"]');
+      var quote_shipping_zipcode = form.querySelector('input[name="quote_shipping_zipcode"]');
+
+      var quote_zipcode_element_value = quote_zipcode_element.value;
+      var quote_shipping_zipcode_value = quote_shipping_zipcode.value;
+
+
+      var usa_zip_code_regex = /^\d{5}(-\d{4})?$/;
+
+      if (quote_zipcode_element_value !== '' && !usa_zip_code_regex.test(quote_zipcode_element_value)) {
+        quote_zipcode_element.classList.add('input-error');
+
+        const error = document.createElement('span');
+        error.className = 'error';
+        error.style.color = 'red';
+        error.textContent = 'Invalid zipcode';
+
+        quote_zipcode_element.insertAdjacentElement('afterend', error);
+        valid = false;
+      }
+
+      if (quote_shipping_zipcode_value !== '' && !usa_zip_code_regex.test(quote_shipping_zipcode_value)) {
+        quote_shipping_zipcode.classList.add('input-error');
+
+        const error = document.createElement('span');
+        error.className = 'error';
+        error.style.color = 'red';
+        error.textContent = 'Invalid zipcode';
+
+        quote_shipping_zipcode.insertAdjacentElement('afterend', error);
+        valid = false;
+      }
+
+      phone_number_regex = /^(\+1\s?)?(\(\d{3}\)|\d{3})[\s.-]?\d{3}[\s.-]?\d{4}$/;
+      var phone_element = form.querySelector('input[name="quote_phone_number"]');
+
+      var phone = phone_element.value;
+
+      if (phone != '' && !phone_number_regex.test(phone)) {
+        phone_element.classList.add('input-error');
+
+        const error = document.createElement('span');
+        error.className = 'error';
+        error.style.color = 'red';
+        error.textContent = 'Invalid phone number';
+
+        phone_element.insertAdjacentElement('afterend', error);
+        valid = false;
+      }
+
+
+      if (!valid) return;
+
+      const formData = new FormData(form);
+      const submitBtn = document.querySelector('.submitbtn');
+
+      // 🔹 beforeSend
+      submitBtn.innerText = 'Please wait...';
+      submitBtn.disabled = true;
+
+      fetch('https://allinone.shopifydevelopmentcompany.com/api/submit-quote-form-all-in-one', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+        .then(res => res.json())
+        .then(res => {
+          if (res.success === true) {
+
+            successMessageContainer.innerHTML = res.message;
+
+            successMessageContainer.style.display = "block";
+
+            form.reset();
+
+            setTimeout(function () {
+              location.reload();
+            }, 2000);
+          } else {
+            alert(res.message || 'Error');
+          }
+        })
+        .catch(err => {
+
+          alert('Something went wrong');
+        })
+        .finally(() => {
+          // 🔹 always runs
+          submitBtn.innerText = 'Submit';
+          submitBtn.disabled = false;
+        });
+
+    });
+
+  }); {% endcomment %}
+
+  document.addEventListener("DOMContentLoaded", function () {
+ const checkbox = document.querySelector('input[name="quote_use_billing_address"]');
+    const shippingInputs = document.querySelectorAll('.shipping_input');
+
+    function toggleShippingInputs() {
+      console.log('aff');
+      shippingInputs.forEach(function (input) {
+        input.disabled = checkbox.checked;
+
+        if (checkbox.checked) {
+          if (input.tagName === "SELECT") {
+            input.selectedIndex = 0; // 0 index select
+          } else {
+            input.value = ""; // input ko empty
+          }
+        }
+      });
+    }
+
+    // initial state (page load par)
+    toggleShippingInputs();
+
+    // checkbox change hone par
+    checkbox.addEventListener('change', toggleShippingInputs);
+
+  const form = document.getElementById('cs-request-quote-form');
+
+  
+    console.log('request-quote-form', form);
+
+    const BillingCountryEl = form.querySelector('select[name="quote_country"]');
+    const ShippingCountryEl = form.querySelector('select[name="quote_shipping_country"]');
+
+
+    const BillingStateEl = form.querySelector('select[name="quote_country_states"]');
+    const ShippingStateEl = form.querySelector('select[name="quote_shipping_states"]');
+
+
+    async function loadCountries(countryEl) {
+      const res = await fetch('https://countriesnow.space/api/v0.1/countries/positions');
+      const data = await res.json();
+      if (data.data) {
+        data.data.sort((a, b) => a.name.localeCompare(b.name));
+        data.data.forEach(c => {
+          countryEl.add(new Option(c.name, c.name));
+        });
+      }
+    }
+
+    async function loadStates(countryName, stateEl) {
+      stateEl.innerHTML = '<option>Loading...</option>';
+
+      const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country: countryName })
+      });
+      const data = await res.json();
+
+      stateEl.innerHTML = '<option value="">-- Select State --</option>';
+
+      if (data.data && data.data.states) {
+        data.data.states.sort((a, b) => a.name.localeCompare(b.name));
+        data.data.states.forEach(s => {
+          stateEl.add(new Option(s.name, s.name));
+        });
+      } else {
+        stateEl.innerHTML = '<option value="">No states found</option>';
+      }
+    }
+
+    BillingCountryEl.addEventListener('change', e => {
+      const country = e.target.value;
+      if (country) loadStates(country, BillingStateEl);
+      else stateEl.innerHTML = '<option value="">-- Select State --</option>';
+    });
+
+    ShippingCountryEl.addEventListener('change', e => {
+      const country = e.target.value;
+      if (country) loadStates(country, ShippingStateEl);
+      else stateEl.innerHTML = '<option value="">-- Select State --</option>';
+    });
+
+
+    loadCountries(BillingCountryEl);
+
+  if (!form) return;
+
+  //////////////////////////////////////////////////////////
+  // PRODUCT TEXTAREA PARSE
+  //////////////////////////////////////////////////////////
+
+  form.addEventListener('submit', async function (e) {
+
+    e.preventDefault();
+
+    let valid = true;
+
+    const successMessageContainer = document.querySelector(".quote-success");
+
+    form.querySelectorAll('.error').forEach(el => el.remove());
+    form.querySelectorAll('input, textarea').forEach(input => {
+      input.classList.remove('input-error');
+    });
+
+    successMessageContainer.innerHTML = '';
+
+    //////////////////////////////////////////////////////////
+    // REQUIRED VALIDATION
+    //////////////////////////////////////////////////////////
+
+    form.querySelectorAll('.required').forEach(function (input) {
+
+      if (input.disabled) return;
+
+      let value = input.value.trim();
+
+      if (value === '') {
+
+        input.classList.add('input-error');
+
+        const error = document.createElement('span');
+
+        error.className = 'error';
+        error.style.color = 'red';
+        error.textContent = 'This is a required field';
+
+        input.insertAdjacentElement('afterend', error);
+
+        valid = false;
+      }
+    });
+
+    if (!valid) return;
+
+    //////////////////////////////////////////////////////////
+    // CONVERT TEXTAREA TO PRODUCT ARRAY
+    //////////////////////////////////////////////////////////
+
+    const textarea =
+      document.querySelector('textarea[name="quote_description"]');
+
+    const hiddenInput =
+      document.querySelector('#variantData');
+
+    const lines = textarea.value
+      .split('\n')
+      .filter(line => line.trim() !== '');
+
+    let parsedProducts = [];
+
+    lines.forEach(line => {
+
+      // Example:
+      // 3 CF-20 Flush Injector
+
+      const match = line.match(/^(\d+)\s+(.*)$/);
+
+      if (match) {
+
+        parsedProducts.push({
+          quantity: parseInt(match[1]),
+          title: match[2]
+        });
+
+      } else {
+
+        parsedProducts.push({
+          quantity: 1,
+          title: line
+        });
+      }
+    });
+
+    hiddenInput.value = JSON.stringify(parsedProducts);
+
+    //////////////////////////////////////////////////////////
+    // SUBMIT
+    //////////////////////////////////////////////////////////
+
+    const formData = new FormData(form);
+
+    const submitBtn = document.querySelector('.submitbtn');
+
+    submitBtn.innerText = 'Please wait...';
+    submitBtn.disabled = true;
+
+    fetch('https://allinone.shopifydevelopmentcompany.com/api/submit-quote-form-all-in-one', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(res => {
+
+      if (res.success === true) {
+
+        successMessageContainer.innerHTML = res.message;
+
+        successMessageContainer.style.display = "block";
+
+        form.reset();
+
+        setTimeout(function () {
+          location.reload();
+        }, 2000);
+
+      } else {
+
+        alert(res.message || 'Error');
+      }
+
+    })
+    .catch(err => {
+
+      alert('Something went wrong');
+
+    })
+    .finally(() => {
+
+      submitBtn.innerText = 'Submit';
+      submitBtn.disabled = false;
+
+    });
+
+  });
+
+});
+</script>

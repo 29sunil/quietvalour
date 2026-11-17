@@ -1,0 +1,35 @@
+<section class="service-page">
+
+  <!-- Hero Section -->
+  <div class="service-hero">
+    <h1>{{ page.title }}</h1>
+    <p>{{ page.content | strip_html | truncate: 160 }}</p>
+  </div>
+
+  <!-- Content Section -->
+  <div class="service-content">
+    {{ page.content }}
+  </div>
+
+  <!-- Features -->
+  <div class="service-features">
+    <div class="feature-box">
+      <h3>Quality Service</h3>
+      <p>We deliver best quality work.</p>
+    </div>
+    <div class="feature-box">
+      <h3>Expert Team</h3>
+      <p>Experienced professionals.</p>
+    </div>
+    <div class="feature-box">
+      <h3>Support</h3>
+      <p>24/7 customer support.</p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="service-cta">
+    <a href="/contact" class="btn-primary">Get Service</a>
+  </div>
+
+</section>

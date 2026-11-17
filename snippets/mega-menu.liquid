@@ -1,0 +1,255 @@
+{%- liquid
+  assign mega_enabled = true
+  assign menu_columns = 3
+  assign banner_position = 'right'
+  assign promotions_width = 30
+  assign background_color = '#ffffff'
+  assign text_color = '#111111'
+
+  if block != blank
+    if block.settings.enable_mega_menu == false
+      assign mega_enabled = false
+    endif
+
+    if block.settings.menu_columns != blank
+      assign menu_columns = block.settings.menu_columns
+    endif
+
+    if block.settings.banner_position != blank
+      assign banner_position = block.settings.banner_position
+    endif
+
+    if block.settings.promotions_width != blank
+      assign promotions_width = block.settings.promotions_width
+    endif
+
+    if block.settings.background_color != blank
+      assign background_color = block.settings.background_color
+    endif
+
+    if block.settings.text_color != blank
+      assign text_color = block.settings.text_color
+    endif
+  endif
+
+  assign panel_id = 'MegaMenu-' | append: section.id | append: '-' | append: link.title | handle
+  assign trigger_id = panel_id | append: '-Trigger'
+  assign has_banners = false
+  assign has_column_menus = false
+  assign has_menu_links = false
+  assign render_mega_menu = false
+  assign selected_column_count = 0
+
+  if block != blank and block.type == 'mega_menu'
+    for i in (1..6)
+      assign column_menu_key = 'column_menu_' | append: i
+      assign column_menu = block.settings[column_menu_key]
+
+      if column_menu != blank and column_menu.links != blank
+        assign has_column_menus = true
+        assign selected_column_count = selected_column_count | plus: 1
+      endif
+    endfor
+
+    if selected_column_count > 0
+      assign menu_columns = selected_column_count
+    endif
+
+    for i in (1..3)
+      assign image_key = 'banner_image_' | append: i
+      assign heading_key = 'banner_heading_' | append: i
+      assign text_key = 'banner_text_' | append: i
+      assign button_text_key = 'banner_button_text_' | append: i
+
+      if block.settings[image_key] != blank or block.settings[heading_key] != blank or block.settings[text_key] != blank or block.settings[button_text_key] != blank
+        assign has_banners = true
+        break
+      endif
+    endfor
+  endif
+
+  if has_column_menus or link.links != blank
+    assign has_menu_links = true
+  endif
+
+  if mega_enabled
+    if has_menu_links or has_banners
+      assign render_mega_menu = true
+    endif
+  endif
+-%}
+
+{%- if render_mega_menu -%}
+  <details
+    class="custom-mega-menu"
+    id="{{ panel_id }}"
+    data-mega-menu
+    {{ block.shopify_attributes }}
+  >
+    <summary
+      id="{{ trigger_id }}"
+      class="custom-mega-menu__summary z-2 font-navigation"
+      data-link="{{ link.url }}"
+      aria-controls="{{ panel_id }}-Panel"
+      aria-expanded="false"
+    >
+      <span class="menu__item custom-mega-menu__summary-inner flex items-center relative">
+        <span class="reversed-link flex items-center">
+          {{- link.title | escape -}}
+          <svg
+            class="custom-mega-menu__chevron"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M9.75 4.5L6 8.25L2.25 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </span>
+    </summary>
+
+    <div
+      id="{{ panel_id }}-Panel"
+      class="custom-mega-menu__panel"
+      role="region"
+      aria-labelledby="{{ trigger_id }}"
+      style="
+        --mega-menu-columns: {{ menu_columns }};
+        --mega-menu-banner-width: {{ promotions_width }}%;
+        --mega-menu-bg: {{ background_color }};
+        --mega-menu-text: {{ text_color }};
+      "
+    >
+      <div class="custom-mega-menu__shell page-width custom-mega-menu__shell--banner-{{ banner_position }}{% unless has_menu_links %} custom-mega-menu__shell--no-menu{% endunless %}">
+        {%- if has_menu_links -%}
+          <nav class="custom-mega-menu__nav" aria-label="{{ link.title | escape }}">
+            {%- if has_column_menus -%}
+              <ul class="custom-mega-menu__columns" role="list">
+                {%- for i in (1..6) -%}
+                  {%- liquid
+                    assign column_menu_key = 'column_menu_' | append: i
+                    assign column_menu = block.settings[column_menu_key]
+
+                    if column_menu == blank or column_menu.links == blank
+                      continue
+                    endif
+
+                    assign column_id = panel_id | append: '-Column-' | append: i
+                  -%}
+
+                  <li class="custom-mega-menu__item custom-mega-menu__item--level-2 custom-mega-menu__column">
+                    <div class="custom-mega-menu__item-row">
+                      <span class="custom-mega-menu__column-heading" id="{{ column_id }}">
+                        {{- column_menu.title | escape -}}
+                      </span>
+                    </div>
+
+                    <ul class="custom-mega-menu__children custom-mega-menu__children--level-3 custom-mega-menu__children--visible" role="list" aria-labelledby="{{ column_id }}">
+                      {%- for column_link in column_menu.links -%}
+                        {%- render 'mega-menu-item',
+                          link: column_link,
+                          level: 3,
+                          parent_id: column_id
+                        -%}
+                      {%- endfor -%}
+                    </ul>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- else -%}
+              <ul class="custom-mega-menu__columns" role="list">
+                {%- for childlink in link.links -%}
+                  {%- render 'mega-menu-item',
+                    link: childlink,
+                    level: 2,
+                    parent_id: panel_id
+                  -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+
+        {%- if has_banners -%}
+          <aside class="custom-mega-menu__banners" aria-label="{{ link.title | escape }} promotions">
+            {%- for i in (1..3) -%}
+              {%- liquid
+                assign image_key = 'banner_image_' | append: i
+                assign heading_key = 'banner_heading_' | append: i
+                assign text_key = 'banner_text_' | append: i
+                assign button_text_key = 'banner_button_text_' | append: i
+                assign button_link_key = 'banner_button_link_' | append: i
+
+                assign banner_image = block.settings[image_key]
+                assign banner_heading = block.settings[heading_key]
+                assign banner_text = block.settings[text_key]
+                assign banner_button_text = block.settings[button_text_key]
+                assign banner_button_link = block.settings[button_link_key]
+
+                if banner_image == blank and banner_heading == blank and banner_text == blank and banner_button_text == blank
+                  continue
+                endif
+              -%}
+
+              <article class="custom-mega-menu__banner">
+                {%- if banner_button_link != blank -%}
+                  <a href="{{ banner_button_link }}" class="custom-mega-menu__banner-link" aria-label="{{ banner_heading | default: banner_button_text | default: link.title | escape }}">
+                {%- endif -%}
+
+                {%- if banner_image != blank -%}
+                  <div class="custom-mega-menu__banner-media">
+                    <img
+                      srcset="
+                        {{ banner_image | image_url: width: 360 }} 360w,
+                        {{ banner_image | image_url: width: 540 }} 540w,
+                        {{ banner_image | image_url: width: 720 }} 720w
+                      "
+                      src="{{ banner_image | image_url: width: 540 }}"
+                      sizes="(min-width: 990px) {{ promotions_width }}vw, 100vw"
+                      width="{{ banner_image.width }}"
+                      height="{{ banner_image.height }}"
+                      loading="lazy"
+                      alt="{{ banner_image.alt | default: banner_heading | default: link.title | escape }}"
+                    >
+                  </div>
+                {%- endif -%}
+
+                <div class="custom-mega-menu__banner-content">
+                  {%- if banner_heading != blank -%}
+                    <h3 class="custom-mega-menu__banner-heading">
+                      {{- banner_heading | escape -}}
+                    </h3>
+                  {%- endif -%}
+
+                  {%- if banner_text != blank -%}
+                    <div class="custom-mega-menu__banner-text">
+                      {{- banner_text | escape | newline_to_br -}}
+                    </div>
+                  {%- endif -%}
+
+                  {%- if banner_button_text != blank -%}
+                    <span class="custom-mega-menu__banner-button">
+                      {{- banner_button_text | escape -}}
+                    </span>
+                  {%- endif -%}
+                </div>
+
+                {%- if banner_button_link != blank -%}
+                  </a>
+                {%- endif -%}
+              </article>
+            {%- endfor -%}
+          </aside>
+        {%- endif -%}
+      </div>
+    </div>
+  </details>
+{%- else -%}
+  <a href="{{ link.url }}" class="menu__item flex relative z-2 font-navigation">
+    <span class="reversed-link">{{ link.title | escape }}</span>
+  </a>
+{%- endif -%}

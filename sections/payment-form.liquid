@@ -1,0 +1,609 @@
+{% assign customerGrp = customer.metafields.custom.pricing_group.value %}
+{% assign is_wholesale = false %}
+{% if customer and customerGrp %}
+  {% if customerGrp contains 'wholesale' %}
+    {% assign is_wholesale = true %}
+  {% endif %}
+{% endif %}
+
+<div class="payment-form-bx">
+  <div class="container">
+    <div class="paycnt">
+      <h1>Securely Pay Your Bill Online</h1>
+      <ol class="secure-payment-info">
+        <li><span class="circle-number">1</span> Provide your account information.</li>
+        <li><span class="circle-number">2</span> Provide your credit card information.</li>
+        <li><span class="circle-number">3</span> Pay quickly and easily.</li>
+      </ol>
+    </div>
+
+    <div class="paymentForm">
+      <h3>Your Information</h3>
+
+      <div
+        id="form-notice"
+        style="display:none; padding:12px 16px; margin-bottom:16px; border-radius:6px; font-weight:500;"
+      ></div>
+
+      <form action="javascript:void(0)" id="cs-payment-form" class="payment-form">
+        <input type="hidden" id="is_wholesale" name="is_wholesale" value="{% if is_wholesale %}1{% else %}0{% endif %}">
+        <input type="hidden" id="shopify_order_id" name="shopify_order_id" value="">
+        <input type="hidden" id="order_type" name="order_type" value="">
+        <input type="hidden" id="due_amount" name="due_amount" value="">
+
+        <fieldset>
+          <div class="field-wrap">
+            <label class="label">Company Name:</label>
+            <input type="text" name="company_name" value="" aria-label="Enter company name">
+          </div>
+
+          <div class="field-wrap">
+            <label class="label">Order/Invoice Number:<em>*</em></label>
+            <input
+              class="required"
+              type="text"
+              name="invoice_number"
+              id="invoice_number"
+              value=""
+              aria-label="Enter invoice number"
+            >
+            <span class="field-hint" style="font-size:12px; color:#888;"
+              >Enter your order # and details will auto-fill</span
+            >
+          </div>
+
+          <!-- Balance remaining — wholesale only, shown after partial pay -->
+          <div id="balance-wrap" style="display:none;" class="field-wrap field-full">
+            <div
+              id="balance-notice"
+              style="padding:10px 14px; background:#fff8e1; border:1px solid #ffc107; border-radius:6px; font-size:14px;"
+            ></div>
+          </div>
+
+          <div class="field-wrap">
+            <label class="label">Contact Person:<em>*</em></label>
+            <input class="required" type="text" name="contact_person" value="" aria-label="Enter contact person name">
+          </div>
+
+          <div class="field-wrap">
+            <label class="label">Email:<em>*</em></label>
+            <input class="required" type="email" name="email" value="" aria-label="Enter email address">
+          </div>
+
+          <div class="field-wrap">
+            <label class="label">Phone:</label>
+            <input type="text" name="phone" value="" aria-label="Enter phone number">
+          </div>
+
+          <div class="field-wrap">
+            <label class="label">Amount to Pay:<em>*</em></label>
+            $
+            <input
+              class="required"
+              type="text"
+              name="amount"
+              id="amount"
+              value=""
+              size="10"
+              maxlength="10"
+              aria-label="Enter amount"
+            >
+            <span id="amount-hint" style="font-size:12px; color:#888; display:none;"></span>
+          </div>
+
+          <div class="field-wrap field-full">
+            <label class="label">Notes:</label>
+            <input type="text" name="notes" value="" aria-label="Enter notes">
+          </div>
+
+          <div class="field-wrap">
+            <label>First Name (As on Card):<em>*</em></label>
+            <input
+              type="text"
+              class="required"
+              placeholder="First name"
+              id="card-name"
+              name="name_on_card_first"
+              value=""
+            >
+          </div>
+
+          <div class="field-wrap">
+            <label>Last Name (As on Card):<em>*</em></label>
+            <input
+              type="text"
+              class="required"
+              placeholder="Last name"
+              id="card-name-2"
+              name="name_on_card_last"
+              value=""
+            >
+          </div>
+
+          <div class="field-wrap credit-card-info-field-wrap">
+            <label>Card Billing Zip Code:<em>*</em></label>
+            <input type="text" class="required" id="card_zip" size="5" maxlength="12" name="card_zip" value="">
+          </div>
+
+          <div class="field-wrap credit-card-info-field-wrap">
+            <label>Card Number:<em>*</em></label>
+            <input
+              type="text"
+              class="required"
+              id="card_number"
+              size="30"
+              maxlength="16"
+              name="card_number"
+              value=""
+              placeholder="1234 5678 9012 3456"
+            >
+          </div>
+
+          <div class="field-wrap credit-card-info-field-wrap">
+            <label>Card Expiry (MM/YY):<em>*</em></label>
+            <input type="text" class="required" id="card_exp" name="card_exp" placeholder="MM/YY" maxlength="5">
+            <span id="exp-error" style="color:red; display:none;"></span>
+          </div>
+
+          <div class="field-wrap credit-card-info-field-wrap">
+            <label>Card CVV:<em>*</em></label>
+            <input
+              type="text"
+              class="required"
+              id="card_cvv"     
+              maxlength="3"
+              name="card_cvv"
+              value=""
+              placeholder="123"
+            >
+          </div>
+        </fieldset>
+
+        <div class="capcha-div" style="padding:15px 0;">
+          <div class="g-recaptcha" data-sitekey="6LcZ41IsAAAAAHZrAZ9rzYTV48rFtvoPOeqjEvpm"></div>
+        </div>
+
+        <div class="submit-wrap">
+          <input type="submit" class="button" id="submit-btn" value="Submit Payment" name="payment_form_submitted">
+        </div>
+      </form>
+    </div>
+
+    <div
+      class="loader-holder"
+      style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:9999; align-items:center; justify-content:center;"
+    >
+      <span class="loader-98"></span>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('cs-payment-form');
+        const invoiceInput = document.getElementById('invoice_number');
+        const amountField = document.getElementById('amount');
+        const amountHint = document.getElementById('amount-hint');
+        const loader = document.querySelector('.loader-holder');
+        const submitBtn = document.getElementById('submit-btn');
+        const isWholesale = document.getElementById('is_wholesale').value === '1';
+
+        // ── Expiry auto-format ──────────────────────────────────
+        document.getElementById('card_exp').addEventListener('input', function () {
+          let v = this.value.replace(/\D/g, '');
+          if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2, 4);
+          this.value = v;
+        });
+
+        // ── Invoice input — reset form on new number ────────────
+        invoiceInput.addEventListener('input', function () {
+          submitBtn.disabled = false;
+          amountField.value = '';
+          amountField.readOnly = false;
+          amountHint.style.display = 'none';
+
+          setField('company_name', '');
+          setField('contact_person', '');
+          setField('email', '');
+          setField('phone', '');
+
+          setHiddenVal('shopify_order_id', '');
+          setHiddenVal('order_type', '');
+          setHiddenVal('due_amount', '');
+
+          document.getElementById('balance-wrap').style.display = 'none';
+          clearErrors();
+          hideNotice();
+        });
+
+
+        let searchTimer;
+    let lastSearched = '';
+    let controller = null;
+
+    invoiceInput.addEventListener('input', function () {
+        const number = this.value.trim();
+
+        // Previous timer cancel
+        clearTimeout(searchTimer);
+
+       
+        // 3 characters se kam hain to search mat karo
+        if (number.length < 3) {
+            return;
+        }
+          console.log(number);
+        searchTimer = setTimeout(() => {
+            searchInvoice(number);
+        }, 1000); // 1 sec wait
+    });
+
+    
+
+  async function searchInvoice(number) {
+
+      // Same invoice already searched
+      if (number === lastSearched) return;
+
+      lastSearched = number;
+
+      // Previous API request cancel
+      if (controller) {
+          controller.abort();
+      }
+
+      controller = new AbortController();
+
+      showLoader(true);
+      invoiceInput.disabled = true;
+
+      try {
+
+          const res = await fetch(
+              'https://allinone.shopifydevelopmentcompany.com/api/get-order-details',
+              {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                      number,
+                      is_wholesale: isWholesale ? 1 : 0
+                  }),
+                  signal: controller.signal
+              }
+          );
+
+          if (!res.ok) {
+              throw new Error('Server error ' + res.status);
+          }
+
+          const data = await res.json();
+
+          if (data.found) {
+
+              setField('company_name', data.company || '');
+              setField('contact_person', data.customer_name || '');
+              setField('email', data.email || '');
+              setField('phone', data.phone || '');
+
+              amountField.value = data.default_amount;
+              amountField.readOnly = !data.amount_editable;
+
+              setHiddenVal('shopify_order_id', data.shopify_id || '');
+              setHiddenVal('order_type', data.type || '');
+              setHiddenVal('due_amount', data.due_amount || 0);
+
+              if (isWholesale && data.due_amount > 0) {
+                  amountHint.textContent =
+                      'Due: $' + parseFloat(data.due_amount).toFixed(2) +
+                      ' — you can pay partial or full';
+                  amountHint.style.display = 'block';
+              }
+
+              showNotice(
+                  'Order ' + data.name + ' found. Please verify details below.',
+                  'success'
+              );
+
+          } else if (data.already_paid) {
+
+              showNotice(
+                  '⚠️ ' +
+                  (data.message ||
+                      'This order has already been paid in full. No payment is due.'),
+                  'warning'
+              );
+
+              amountField.value = '';
+              amountField.readOnly = true;
+              submitBtn.disabled = true;
+
+              setField('company_name', '');
+              setField('contact_person', '');
+              setField('email', '');
+              setField('phone', '');
+              setHiddenVal('shopify_order_id', '');
+              setHiddenVal('order_type', '');
+              setHiddenVal('due_amount', '');
+
+          } else {
+
+              showNotice(
+                  data.message || 'No order found. Please check the number.',
+                  'error'
+              );
+
+              amountField.value = '';
+              amountField.readOnly = false;
+          }
+
+      } catch (err) {
+
+          if (err.name !== 'AbortError') {
+              console.error(err);
+              showNotice(
+                  'Could not connect to server. Please try again.',
+                  'error'
+              );
+          }
+
+      } finally {
+
+          showLoader(false);
+          invoiceInput.disabled = false;
+      }
+  }
+
+        // ── Invoice blur — fetch from Shopify ──────────────────
+        {% comment %} invoiceInput.addEventListener('blur', async function () {
+          const number = this.value.trim();
+          if (!number) return;
+
+          showLoader(true);
+          invoiceInput.disabled = true;
+
+          try {
+            const res = await fetch('https://allinone.shopifydevelopmentcompany.com/api/get-order-details', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ number, is_wholesale: isWholesale ? 1 : 0 }),
+            });
+
+            if (!res.ok) throw new Error('Server error ' + res.status);
+
+            const data = await res.json();
+
+            if (data.found) {
+              setField('company_name', data.company || '');
+              setField('contact_person', data.customer_name || '');
+              setField('email', data.email || '');
+              setField('phone', data.phone || '');
+
+              amountField.value = data.default_amount;
+              amountField.readOnly = !data.amount_editable;
+
+              // ✅ Store Shopify GID + meta in hidden fields
+              setHiddenVal('shopify_order_id', data.shopify_id || '');
+              setHiddenVal('order_type', data.type || '');
+              setHiddenVal('due_amount', data.due_amount || 0);
+
+              // Hint for wholesale
+              if (isWholesale && data.due_amount > 0) {
+                amountHint.textContent =
+                  'Due: $' + parseFloat(data.due_amount).toFixed(2) + ' — you can pay partial or full';
+                amountHint.style.display = 'block';
+              }
+
+              showNotice('Order ' + data.name + ' found. Please verify details below.', 'success');
+            } else if (data.already_paid) {
+              // ✅ REPLACE THIS BLOCK
+              showNotice(
+                '⚠️ ' + (data.message || 'This order has already been paid in full. No payment is due.'),
+                'warning'
+              );
+              amountField.value = '';
+              amountField.readOnly = true;
+              submitBtn.disabled = true;
+
+              // Sabhi auto-filled fields bhi clear karo
+              setField('company_name', '');
+              setField('contact_person', '');
+              setField('email', '');
+              setField('phone', '');
+              setHiddenVal('shopify_order_id', '');
+              setHiddenVal('order_type', '');
+              setHiddenVal('due_amount', '');
+            } else {
+              showNotice(data.message || 'No order found. Please check the number.', 'error');
+              amountField.value = '';
+              amountField.readOnly = false;
+            }
+          } catch (err) {
+            console.error(err);
+            showNotice('Could not connect to server. Please try again.', 'error');
+          } finally {
+            showLoader(false);
+            invoiceInput.disabled = false;
+          }
+        }); {% endcomment %}
+
+        // ── Form submit ─────────────────────────────────────────
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          clearErrors();
+
+          if (!validateForm()) return;
+
+          showLoader(true);
+          submitBtn.disabled = true;
+
+          const formData = new FormData(form);
+
+          try {
+            const res = await fetch('https://allinone.shopifydevelopmentcompany.com/api/process-payment', {
+              method: 'POST',
+              body: formData,
+            });
+
+            const data = await res.json();
+
+            if (data.status === 'success') {
+              // ── Show success + remaining balance ─────────────
+              let msg = '✅ Payment of $' + parseFloat(data.amount_paid).toFixed(2) + ' successful!';
+              msg += ' Transaction ID: ' + data.transaction_id;
+
+              if (data.remaining_balance > 0) {
+                msg += ' | Remaining Balance: $' + parseFloat(data.remaining_balance).toFixed(2);
+
+                // Show balance box
+                const balanceWrap = document.getElementById('balance-wrap');
+                const balanceNotice = document.getElementById('balance-notice');
+                balanceNotice.innerHTML =
+                  '⚠️ <strong>Partial payment recorded.</strong> Remaining balance: <strong>$' +
+                  parseFloat(data.remaining_balance).toFixed(2) +
+                  '</strong>';
+                balanceWrap.style.display = 'block';
+              }
+
+              showNotice(msg, 'success');
+              form.reset();
+              amountField.readOnly = false;
+              amountHint.style.display = 'none';
+              grecaptcha.reset();
+            } else {
+              showNotice(data.message || 'Payment failed. Please try again.', 'error');
+              grecaptcha.reset();
+            }
+          } catch (err) {
+            console.error(err);
+            showNotice('Something went wrong. Please try again.', 'error');
+            grecaptcha.reset();
+          } finally {
+            showLoader(false);
+            submitBtn.disabled = false;
+          }
+        });
+
+        // ── Validation ──────────────────────────────────────────
+        function validateForm() {
+          let valid = true;
+
+          form.querySelectorAll('.required').forEach(function (input) {
+            if (!input.value.trim()) {
+              showError(input, 'This field is required');
+              valid = false;
+            }
+          });
+
+          const email = form.querySelector('[name="email"]');
+          if (email && email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+            showError(email, 'Invalid email address');
+            valid = false;
+          }
+
+          const amount = parseFloat(amountField.value);
+          if (!amount || amount <= 0) {
+            showError(amountField, 'Enter a valid amount');
+            valid = false;
+          }
+
+          // Expiry validate
+          const expVal = document.getElementById('card_exp').value.trim();
+          if (expVal && !isValidExpiry(expVal)) {
+            const expErr = document.getElementById('exp-error');
+            expErr.textContent = 'Card expiry is invalid or expired';
+            expErr.style.display = 'inline';
+            document.getElementById('card_exp').classList.add('input-error');
+            valid = false;
+          }
+
+          // reCAPTCHA
+          if (typeof grecaptcha !== 'undefined') {
+            const captcha = grecaptcha.getResponse();
+            if (!captcha || captcha.length === 0) {
+              const captchaDiv = document.querySelector('.capcha-div');
+              const existing = captchaDiv.querySelector('.error');
+              if (!existing) {
+                const err = document.createElement('span');
+                err.className = 'error';
+                err.style.color = 'red';
+                err.textContent = 'Please complete the captcha';
+                captchaDiv.appendChild(err);
+              }
+              valid = false;
+            }
+          }
+
+          return valid;
+        }
+
+        function isValidExpiry(expiry) {
+          if (!/^\d{2}\/\d{2}$/.test(expiry)) return false;
+          const [m, y] = expiry.split('/');
+          const month = parseInt(m, 10);
+          const year = 2000 + parseInt(y, 10);
+          if (month < 1 || month > 12) return false;
+          const expiryDate = new Date(year, month, 0, 23, 59, 59);
+          return expiryDate >= new Date();
+        }
+
+        // ── Helpers ─────────────────────────────────────────────
+        function setField(name, value) {
+          const el = form.querySelector('[name="' + name + '"]');
+          if (el) el.value = value;
+        }
+
+        function setHiddenVal(id, value) {
+          const el = document.getElementById(id);
+          if (el) el.value = value;
+        }
+
+        function showLoader(on) {
+          loader.style.display = on ? 'flex' : 'none';
+        }
+
+        function showError(input, message) {
+          const existing = input.parentNode.querySelector('.error');
+          if (existing) existing.remove();
+          input.classList.add('input-error');
+          const err = document.createElement('span');
+          err.className = 'error';
+          err.style.color = 'red';
+          err.textContent = message;
+          input.insertAdjacentElement('afterend', err);
+        }
+
+        function clearErrors() {
+          form.querySelectorAll('.error').forEach(function (el) {
+            el.remove();
+          });
+          form.querySelectorAll('.input-error').forEach(function (el) {
+            el.classList.remove('input-error');
+          });
+          const expErr = document.getElementById('exp-error');
+          if (expErr) {
+            expErr.textContent = '';
+            expErr.style.display = 'none';
+          }
+        }
+
+        function showNotice(msg, type) {
+          const colors = { success: '#166534', error: '#7f1d1d', warning: '#78350f' };
+          const bgs = { success: '#dcfce7', error: '#fee2e2', warning: '#fef9c3' };
+          const el = document.getElementById('form-notice');
+          el.textContent = msg;
+          el.style.color = colors[type] || '#000';
+          el.style.background = bgs[type] || '#f5f5f5';
+          el.style.display = 'block';
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function hideNotice() {
+          const el = document.getElementById('form-notice');
+          if (el) el.style.display = 'none';
+        }
+      });
+</script>

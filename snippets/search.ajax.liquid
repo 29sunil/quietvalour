@@ -1,0 +1,21 @@
+{%- if search.results.size > 0 -%}
+  <div class="grid gap-4">
+    {%- for product in search.results -%}
+      <div class="predictive-search__list-item flex items-center gap-3">
+
+        {%- if product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 100 }}" width="60">
+        {%- endif -%}
+
+        <div>
+          <a href="{{ product.url }}" class="reversed-link">
+            {{ product.title }}
+          </a>
+        </div>
+
+      </div>
+    {%- endfor -%}
+  </div>
+{%- else -%}
+  <p>No results found</p>
+{%- endif -%}
